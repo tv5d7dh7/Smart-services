@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MacStorage - Smart Space Management for Your Mac</title>
-    <meta name="description" content="MacStorage helps you organize and optimize your Mac storage space. One-time purchase, lifetime access. Trusted by thousands of Mac users worldwide.">
-    <meta name="keywords" content="mac storage, space management, disk analyzer, mac utility, storage optimizer">
+    <title>Netflix-Macs - Premium Media Hub for Mac Users</title>
+    <meta name="description" content="Netflix-Macs is your ultimate media center for macOS. Organize, stream, and enjoy all your entertainment content in one beautiful application.">
+    <meta name="keywords" content="media hub, entertainment center, mac media player, streaming organizer, content manager">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -13,22 +13,28 @@
             font-family: 'Montserrat', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background: linear-gradient(135deg, #fefefe 0%, #fdf2f4 50%, #f5f3ff 100%);
         }
         .gradient-hero {
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fff1f2 30%, #fce7f3 60%, #f5f3ff 100%);
         }
         .gradient-card {
-            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            background: linear-gradient(145deg, #ffffff 0%, #fffbfc 100%);
         }
         .gradient-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
         }
         .gradient-btn:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        .gradient-btn-secondary {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
         }
         .soft-shadow {
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 40px rgba(220, 38, 38, 0.1);
+        }
+        .card-shadow {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
         .fade-in {
             animation: fadeIn 0.8s ease-out;
@@ -45,51 +51,73 @@
             50% { transform: translateY(-10px); }
         }
         .gradient-text {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #f87171 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .pastel-blue { background-color: #e0f2fe; }
-        .pastel-purple { background-color: #f3e8ff; }
+        .gradient-text-purple {
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pastel-red { background-color: #fee2e2; }
+        .pastel-purple { background-color: #ede9fe; }
+        .pastel-blue { background-color: #dbeafe; }
         .pastel-green { background-color: #dcfce7; }
         .pastel-orange { background-color: #ffedd5; }
+        .pastel-pink { background-color: #fce7f3; }
         html {
             scroll-behavior: smooth;
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .faq-content.active {
+            max-height: 500px;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-icon.active {
+            transform: rotate(180deg);
         }
     </style>
 </head>
 <body class="gradient-bg min-h-screen">
 
-    <div id="cookiePopup" class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 soft-shadow z-50 border-t border-gray-100">
+    <div id="cookiePopup" class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 soft-shadow z-50 border-t border-red-100">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex-1">
                 <h4 class="font-semibold text-gray-800 mb-1">Cookie Notice</h4>
-                <p class="text-sm text-gray-600">We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept", you consent to our use of cookies as described in our Privacy Policy.</p>
+                <p class="text-sm text-gray-600">We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept", you consent to our use of cookies as described in our Privacy Policy below.</p>
             </div>
             <div class="flex gap-3">
                 <button onclick="declineCookies()" class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-300 rounded-full transition-all hover:border-gray-400">Decline</button>
-                <button onclick="acceptCookies()" class="px-5 py-2.5 text-sm font-medium text-white gradient-btn rounded-full transition-all">Accept</button>
+                <button onclick="acceptCookies()" class="px-5 py-2.5 text-sm font-medium text-white gradient-btn rounded-full transition-all hover:shadow-lg">Accept</button>
             </div>
         </div>
     </div>
 
-    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-40 border-b border-gray-100">
+    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-40 border-b border-red-50">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
                 <div class="flex items-center gap-2">
                     <div class="w-9 h-9 rounded-xl gradient-btn flex items-center justify-center">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path>
                         </svg>
                     </div>
-                    <span class="text-xl font-bold text-gray-800">MacStorage</span>
+                    <span class="text-xl font-bold text-gray-800">Netflix-Macs</span>
                 </div>
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="#features" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Features</a>
-                    <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">How It Works</a>
-                    <a href="#pricing" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
-                    <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">FAQ</a>
+                    <a href="#features" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">Features</a>
+                    <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">How It Works</a>
+                    <a href="#pricing" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">Pricing</a>
+                    <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">FAQ</a>
                 </div>
                 <a href="#pricing" class="gradient-btn text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:shadow-lg">
                     Get Started
@@ -102,32 +130,32 @@
         <div class="max-w-6xl mx-auto px-4 md:px-6">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="fade-in">
-                    <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <div class="inline-flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
-                        Trusted by 50,000+ Mac Users
+                        Trusted by 90,000+ Mac Users Worldwide
                     </div>
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-                        Smart Space <span class="gradient-text">Management</span> for Your Mac
+                        Your Ultimate <span class="gradient-text">Media Hub</span> for Mac
                     </h1>
                     <h2 class="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
-                        Take control of your storage. Visualize, analyze, and organize your disk space with an intuitive interface designed for macOS.
+                        Organize, manage, and enjoy all your entertainment content in one beautiful, powerful application designed exclusively for macOS.
                     </h2>
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
                         <a href="#pricing" class="gradient-btn text-white px-8 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl text-center">
-                            Start Organizing Today
+                            Get Started Now
                         </a>
-                        <a href="#how-it-works" class="bg-white text-gray-700 px-8 py-4 rounded-full text-lg font-semibold border border-gray-200 hover:border-gray-300 transition-all text-center">
+                        <a href="#how-it-works" class="bg-white text-gray-700 px-8 py-4 rounded-full text-lg font-semibold border border-gray-200 hover:border-red-200 transition-all text-center">
                             Learn More
                         </a>
                     </div>
                     <div class="flex items-center gap-6">
                         <div class="flex -space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-red-600 border-2 border-white"></div>
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white"></div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-white"></div>
                         </div>
                         <div>
                             <div class="flex items-center gap-1 text-yellow-500">
@@ -137,60 +165,67 @@
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             </div>
-                            <p class="text-sm text-gray-600">4.9/5 from 2,000+ reviews</p>
+                            <p class="text-sm text-gray-600">4.9/5 from 4,200+ reviews</p>
                         </div>
                     </div>
                 </div>
                 <div class="relative float">
                     <div class="gradient-card rounded-3xl p-8 soft-shadow">
-                        <div class="bg-gray-100 rounded-2xl p-6 mb-6">
+                        <div class="bg-gradient-to-br from-gray-50 to-red-50 rounded-2xl p-6 mb-6">
                             <div class="flex items-center gap-3 mb-4">
                                 <div class="w-3 h-3 rounded-full bg-red-400"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-400"></div>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Documents</span>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-32 h-2 bg-blue-200 rounded-full overflow-hidden">
-                                            <div class="w-3/4 h-full bg-blue-500 rounded-full"></div>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-xl">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
                                         </div>
-                                        <span class="text-xs text-gray-500">45 GB</span>
+                                        <div>
+                                            <p class="font-semibold text-gray-800 text-sm">Movies Collection</p>
+                                            <p class="text-xs text-gray-500">1,247 items</p>
+                                        </div>
                                     </div>
+                                    <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Organized</span>
                                 </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Media</span>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-32 h-2 bg-purple-200 rounded-full overflow-hidden">
-                                            <div class="w-1/2 h-full bg-purple-500 rounded-full"></div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-xl">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                                            </svg>
                                         </div>
-                                        <span class="text-xs text-gray-500">32 GB</span>
+                                        <div>
+                                            <p class="font-semibold text-gray-800 text-sm">Music Library</p>
+                                            <p class="text-xs text-gray-500">8,432 tracks</p>
+                                        </div>
                                     </div>
+                                    <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Synced</span>
                                 </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Applications</span>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-32 h-2 bg-green-200 rounded-full overflow-hidden">
-                                            <div class="w-1/3 h-full bg-green-500 rounded-full"></div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-xl">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
                                         </div>
-                                        <span class="text-xs text-gray-500">18 GB</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Other</span>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-32 h-2 bg-orange-200 rounded-full overflow-hidden">
-                                            <div class="w-1/4 h-full bg-orange-500 rounded-full"></div>
+                                        <div>
+                                            <p class="font-semibold text-gray-800 text-sm">Photo Albums</p>
+                                            <p class="text-xs text-gray-500">15,890 photos</p>
                                         </div>
-                                        <span class="text-xs text-gray-500">12 GB</span>
                                     </div>
+                                    <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Ready</span>
                                 </div>
                             </div>
                         </div>
                         <div class="text-center">
-                            <p class="text-3xl font-bold text-gray-800">107 GB</p>
-                            <p class="text-sm text-gray-500">Total Space Analyzed</p>
+                            <p class="text-3xl font-bold text-gray-800">25,569</p>
+                            <p class="text-sm text-gray-500">Media Items Managed</p>
                         </div>
                     </div>
                 </div>
@@ -198,25 +233,25 @@
         </div>
     </section>
 
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-white/60">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <p class="text-center text-gray-500 text-sm font-medium mb-8">COMPATIBLE WITH ALL MACOS VERSIONS</p>
+            <p class="text-center text-gray-500 text-sm font-medium mb-8">OPTIMIZED FOR APPLE ECOSYSTEM</p>
             <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
                 <div class="text-center">
                     <p class="text-2xl font-bold text-gray-800">macOS Sonoma</p>
-                    <p class="text-sm text-gray-500">14.0+</p>
+                    <p class="text-sm text-gray-500">Full Support</p>
                 </div>
                 <div class="text-center">
                     <p class="text-2xl font-bold text-gray-800">macOS Ventura</p>
-                    <p class="text-sm text-gray-500">13.0+</p>
+                    <p class="text-sm text-gray-500">Compatible</p>
                 </div>
                 <div class="text-center">
                     <p class="text-2xl font-bold text-gray-800">macOS Monterey</p>
-                    <p class="text-sm text-gray-500">12.0+</p>
+                    <p class="text-sm text-gray-500">Compatible</p>
                 </div>
                 <div class="text-center">
-                    <p class="text-2xl font-bold text-gray-800">macOS Big Sur</p>
-                    <p class="text-sm text-gray-500">11.0+</p>
+                    <p class="text-2xl font-bold text-gray-800">Apple Silicon</p>
+                    <p class="text-sm text-gray-500">Native M1/M2/M3</p>
                 </div>
             </div>
         </div>
@@ -225,95 +260,95 @@
     <section id="features" class="py-20 md:py-32">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features for Complete Control</h2>
-                <h3 class="text-lg text-gray-600 max-w-2xl mx-auto">Everything you need to understand and manage your Mac storage efficiently</h3>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features for Media Enthusiasts</h2>
+                <h3 class="text-lg text-gray-600 max-w-2xl mx-auto">Everything you need to organize, enjoy, and manage your entire media collection in one place</h3>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="gradient-card rounded-2xl p-8 soft-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-blue rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Visual Disk Analysis</h3>
-                    <p class="text-gray-600 leading-relaxed">Interactive charts and graphs show exactly where your storage space is being used. Identify large folders and files at a glance with our intuitive visualization system.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-purple rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 pastel-red rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Categories</h3>
-                    <p class="text-gray-600 leading-relaxed">Automatically categorizes your files into meaningful groups like documents, media, archives, and more. Find what you need faster with intelligent organization.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Library Organization</h3>
+                    <p class="text-gray-600 leading-relaxed">Automatically categorize and sort your media files by type, date, genre, or custom tags. Find any content instantly with intelligent search.</p>
                 </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-green rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 pastel-purple rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Deep File Search</h3>
-                    <p class="text-gray-600 leading-relaxed">Powerful search functionality lets you find files by name, size, date, or type. Locate duplicate files and large items that may be taking up unnecessary space.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">4K HDR Playback</h3>
+                    <p class="text-gray-600 leading-relaxed">Experience stunning visual quality with native support for 4K, HDR10, and Dolby Vision content. Optimized for Retina displays and ProMotion.</p>
                 </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-orange rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Quick Scanning</h3>
-                    <p class="text-gray-600 leading-relaxed">Lightning-fast scanning engine analyzes your entire disk in seconds. Get instant insights into your storage usage without waiting around.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow hover:shadow-xl transition-shadow">
+                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
                     <div class="w-14 h-14 pastel-blue rounded-2xl flex items-center justify-center mb-6">
                         <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">iCloud Integration</h3>
+                    <p class="text-gray-600 leading-relaxed">Seamlessly sync your media library across all your Apple devices. Access your content anywhere with automatic cloud backup and restore.</p>
+                </div>
+                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 pastel-green rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Safe Operations</h3>
-                    <p class="text-gray-600 leading-relaxed">Built-in safety features prevent accidental deletion of important system files. Review everything before taking action with our preview system.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Privacy First</h3>
+                    <p class="text-gray-600 leading-relaxed">Your media stays on your device. We never access, analyze, or share your personal content. Full compliance with Apple privacy standards.</p>
                 </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-purple rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 pastel-orange rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Media Preview</h3>
-                    <p class="text-gray-600 leading-relaxed">Preview images, videos, and documents directly within the app. Make informed decisions about what to keep without opening multiple applications.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Lightning Fast</h3>
+                    <p class="text-gray-600 leading-relaxed">Built with native Swift and Metal for incredible performance. Launch in under a second and browse thousands of files without lag.</p>
+                </div>
+                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 pastel-pink rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Custom Playlists</h3>
+                    <p class="text-gray-600 leading-relaxed">Create personalized collections and smart playlists based on your preferences. Mix videos, music, and photos for the perfect entertainment experience.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="how-it-works" class="py-20 md:py-32 bg-gradient-to-b from-gray-50 to-white">
+    <section id="how-it-works" class="py-20 md:py-32 bg-white/40">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How MacStorage Works</h2>
-                <h3 class="text-lg text-gray-600 max-w-2xl mx-auto">Three simple steps to take control of your Mac storage</h3>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Get Started in Three Simple Steps</h2>
+                <h3 class="text-lg text-gray-600 max-w-2xl mx-auto">Setting up your personal media hub takes just minutes, not hours</h3>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                        <span class="text-3xl font-bold text-blue-600">1</span>
+                    <div class="w-20 h-20 bg-gradient-to-br from-red-100 to-red-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold gradient-text">1</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Launch & Scan</h3>
-                    <p class="text-gray-600 leading-relaxed">Open MacStorage and let it analyze your disk. The smart scanning engine maps out all your files and folders in seconds.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Purchase & Activate</h3>
+                    <p class="text-gray-600">Complete your one-time purchase and receive instant access to your license key via email. No subscription required.</p>
                 </div>
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
-                        <span class="text-3xl font-bold text-purple-600">2</span>
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold gradient-text-purple">2</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Explore & Analyze</h3>
-                    <p class="text-gray-600 leading-relaxed">Navigate through visual representations of your storage. Drill down into folders, find large files, and discover what's using your space.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Import Your Media</h3>
+                    <p class="text-gray-600">Point Netflix-Macs to your media folders and watch as it automatically organizes everything. Supports all major formats.</p>
                 </div>
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
-                        <span class="text-3xl font-bold text-green-600">3</span>
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-blue-600">3</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Organize & Manage</h3>
-                    <p class="text-gray-600 leading-relaxed">Take action on your findings. Move, archive, or remove unnecessary files with confidence using our safe management tools.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Enjoy Your Content</h3>
+                    <p class="text-gray-600">Browse your beautifully organized library, create playlists, and enjoy your media with stunning quality playback.</p>
                 </div>
             </div>
         </div>
@@ -321,99 +356,39 @@
 
     <section class="py-20 md:py-32">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by Thousands of Mac Users</h2>
+                <h3 class="text-lg text-gray-600">Join a growing community of satisfied customers</h3>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8 text-center">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Why Choose MacStorage?</h2>
-                    <div class="space-y-6">
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Native macOS Experience</h4>
-                                <p class="text-gray-600">Built specifically for Mac with a beautiful interface that feels right at home on your desktop.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">One-Time Purchase</h4>
-                                <p class="text-gray-600">No subscriptions, no hidden fees. Pay once and enjoy lifetime access to all features and updates.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Privacy Focused</h4>
-                                <p class="text-gray-600">Your data stays on your Mac. We never collect, store, or transmit any of your personal files or information.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Regular Updates</h4>
-                                <p class="text-gray-600">Continuous improvements and new features based on user feedback. Always compatible with the latest macOS.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Lightweight & Fast</h4>
-                                <p class="text-gray-600">Minimal system resources usage. Runs smoothly even on older Mac models without slowing down your work.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="text-4xl md:text-5xl font-bold gradient-text mb-2">90K+</p>
+                    <p class="text-gray-600">Active Users</p>
                 </div>
-                <div class="gradient-card rounded-3xl p-8 soft-shadow">
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="text-center p-6 bg-blue-50 rounded-2xl">
-                            <p class="text-4xl font-bold text-blue-600 mb-2">50K+</p>
-                            <p class="text-sm text-gray-600">Active Users</p>
-                        </div>
-                        <div class="text-center p-6 bg-purple-50 rounded-2xl">
-                            <p class="text-4xl font-bold text-purple-600 mb-2">4.9</p>
-                            <p class="text-sm text-gray-600">User Rating</p>
-                        </div>
-                        <div class="text-center p-6 bg-green-50 rounded-2xl">
-                            <p class="text-4xl font-bold text-green-600 mb-2">2TB+</p>
-                            <p class="text-sm text-gray-600">Space Analyzed Daily</p>
-                        </div>
-                        <div class="text-center p-6 bg-orange-50 rounded-2xl">
-                            <p class="text-4xl font-bold text-orange-600 mb-2">24/7</p>
-                            <p class="text-sm text-gray-600">Email Support</p>
-                        </div>
-                    </div>
+                <div>
+                    <p class="text-4xl md:text-5xl font-bold gradient-text-purple mb-2">4.9</p>
+                    <p class="text-gray-600">Average Rating</p>
+                </div>
+                <div>
+                    <p class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">50M+</p>
+                    <p class="text-gray-600">Files Organized</p>
+                </div>
+                <div>
+                    <p class="text-4xl md:text-5xl font-bold text-green-600 mb-2">99.9%</p>
+                    <p class="text-gray-600">Uptime</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-20 md:py-32 bg-gradient-to-b from-gray-50 to-white">
+    <section class="py-20 md:py-32 bg-white/40">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Users Say</h2>
-                <h3 class="text-lg text-gray-600">Join thousands of satisfied Mac users</h3>
+                <h3 class="text-lg text-gray-600">Real feedback from real customers</h3>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="gradient-card rounded-2xl p-8 soft-shadow">
+                <div class="gradient-card rounded-2xl p-8 card-shadow">
                     <div class="flex items-center gap-1 text-yellow-500 mb-4">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -421,16 +396,16 @@
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">"Finally found where all my storage was going! The visual breakdown made it so easy to see which folders were taking up the most space. Highly recommend."</p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"Finally, an app that understands how Mac users want to organize their media. The interface is beautiful and it works flawlessly with my entire collection."</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600"></div>
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600"></div>
                         <div>
-                            <p class="font-semibold text-gray-900">Sarah M.</p>
-                            <p class="text-sm text-gray-500">Graphic Designer</p>
+                            <p class="font-semibold text-gray-800">Michael Chen</p>
+                            <p class="text-sm text-gray-500">Video Producer, Los Angeles</p>
                         </div>
                     </div>
                 </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow">
+                <div class="gradient-card rounded-2xl p-8 card-shadow">
                     <div class="flex items-center gap-1 text-yellow-500 mb-4">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -438,16 +413,16 @@
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">"As a video editor, I deal with huge files constantly. MacStorage helps me keep track of everything and maintain an organized workspace. Worth every penny!"</p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"I have over 10,000 photos and videos. Netflix-Macs organized everything in minutes. The one-time purchase was absolutely worth it compared to monthly subscriptions."</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600"></div>
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600"></div>
                         <div>
-                            <p class="font-semibold text-gray-900">James K.</p>
-                            <p class="text-sm text-gray-500">Video Editor</p>
+                            <p class="font-semibold text-gray-800">Sarah Johnson</p>
+                            <p class="text-sm text-gray-500">Photographer, New York</p>
                         </div>
                     </div>
                 </div>
-                <div class="gradient-card rounded-2xl p-8 soft-shadow">
+                <div class="gradient-card rounded-2xl p-8 card-shadow">
                     <div class="flex items-center gap-1 text-yellow-500 mb-4">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -455,12 +430,12 @@
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">"Simple, fast, and effective. The one-time purchase model is refreshing. No more subscription fatigue! Great tool for managing my MacBook storage."</p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"The Apple Silicon optimization is incredible. It runs so smoothly on my M2 MacBook Air. Best media management solution I have ever used on any platform."</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600"></div>
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600"></div>
                         <div>
-                            <p class="font-semibold text-gray-900">Emily R.</p>
-                            <p class="text-sm text-gray-500">Product Manager</p>
+                            <p class="font-semibold text-gray-800">David Park</p>
+                            <p class="text-sm text-gray-500">Developer, San Francisco</p>
                         </div>
                     </div>
                 </div>
@@ -472,324 +447,289 @@
         <div class="max-w-4xl mx-auto px-4 md:px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
-                <h3 class="text-lg text-gray-600">One payment. Lifetime access. No subscriptions.</h3>
+                <h3 class="text-lg text-gray-600">One payment. Lifetime access. No hidden fees.</h3>
             </div>
-            <div class="gradient-card rounded-3xl p-8 md:p-12 soft-shadow max-w-xl mx-auto border-2 border-blue-100">
-                <div class="text-center">
-                    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        Most Popular
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Lifetime License</h3>
-                    <p class="text-gray-600 mb-6">Full access to all features</p>
-                    <div class="mb-8">
-                        <span class="text-5xl md:text-6xl font-bold text-gray-900">$11.75</span>
-                        <span class="text-gray-500 text-lg ml-2">one-time</span>
-                    </div>
-                    <ul class="text-left space-y-4 mb-8">
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">Complete disk analysis features</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">Visual storage breakdown</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">Smart file categorization</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">Duplicate file finder</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">Lifetime updates included</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">Priority email support</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span class="text-gray-700">30-day money-back guarantee</span>
-                        </li>
-                    </ul>
-                    <a href="#" class="block w-full gradient-btn text-white px-8 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl text-center">
-                        Get MacStorage Now
-                    </a>
-                    <p class="text-sm text-gray-500 mt-4">Secure payment via Stripe</p>
+            <div class="gradient-card rounded-3xl p-8 md:p-12 soft-shadow text-center">
+                <div class="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Best Value - Pay Once, Use Forever
                 </div>
+                <div class="mb-8">
+                    <span class="text-5xl md:text-6xl font-bold text-gray-900">$12.85</span>
+                    <span class="text-xl text-gray-500 ml-2">one-time</span>
+                </div>
+                <ul class="text-left max-w-md mx-auto space-y-4 mb-10">
+                    <li class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-700">Lifetime license with all features unlocked</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-700">All future updates included at no extra cost</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-700">Priority email support from our team</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-700">Native Apple Silicon (M1/M2/M3) support</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-700">iCloud sync and backup capabilities</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-700">30-day money-back guarantee</span>
+                    </li>
+                </ul>
+                <a href="#" class="inline-block gradient-btn text-white px-10 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl">
+                    Purchase License Now
+                </a>
+                <p class="text-sm text-gray-500 mt-6">Secure payment processing. Instant delivery via email.</p>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="py-20 md:py-32 bg-gradient-to-b from-gray-50 to-white">
+    <section id="faq" class="py-20 md:py-32 bg-white/40">
         <div class="max-w-3xl mx-auto px-4 md:px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-                <h3 class="text-lg text-gray-600">Everything you need to know about MacStorage</h3>
+                <h3 class="text-lg text-gray-600">Everything you need to know about Netflix-Macs</h3>
             </div>
             <div class="space-y-4">
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">What macOS versions are supported?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">What macOS versions are supported?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        MacStorage supports macOS Big Sur (11.0) and later, including macOS Monterey, Ventura, and Sonoma. We ensure compatibility with the latest macOS updates through regular patches and improvements.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">Netflix-Macs supports macOS Monterey (12.0) and later, including macOS Ventura and macOS Sonoma. It runs natively on both Intel-based Macs and Apple Silicon (M1, M2, M3) processors for optimal performance.</p>
                     </div>
-                </details>
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">Is my data safe and private?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">Is this a one-time purchase or subscription?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        Absolutely. MacStorage operates entirely on your local machine. We do not collect, transmit, or store any of your personal files or data. Your privacy is our top priority, and all analysis happens locally on your Mac.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">Netflix-Macs is a one-time purchase of $12.85. You pay once and own the license forever. This includes all future updates and new features at no additional cost. There are no recurring fees or hidden charges.</p>
                     </div>
-                </details>
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">How does the one-time payment work?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">What media formats are supported?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        Pay once and own MacStorage forever. There are no subscriptions, hidden fees, or recurring charges. Your purchase includes all future updates and improvements at no additional cost.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">We support all popular media formats including MP4, MKV, AVI, MOV, MP3, FLAC, AAC, JPEG, PNG, RAW, and many more. The application uses native macOS codecs for optimal compatibility and playback quality.</p>
                     </div>
-                </details>
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">Can I use MacStorage on multiple Macs?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">How does iCloud sync work?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        Yes! Your license allows you to use MacStorage on up to 3 personal Mac computers. Whether you have a MacBook, iMac, or Mac mini, you can install and use MacStorage on all of them with a single purchase.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">Netflix-Macs can sync your library metadata, playlists, and preferences across all your Mac devices using iCloud. Your actual media files stay on your local storage unless you choose to enable full cloud backup. This keeps your iCloud usage minimal.</p>
                     </div>
-                </details>
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">What if I need help or support?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">Can I use it on multiple Macs?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        We offer priority email support for all customers. Our support team typically responds within 24 hours. You can reach us at support@macstorage.vercel.app for any questions or technical assistance.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">Yes! Your license allows installation on up to 3 Mac devices that you personally own. This is perfect if you have an iMac at home, a MacBook for work, and a Mac mini in your media room.</p>
                     </div>
-                </details>
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">Is there a refund policy?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">What is your refund policy?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        Yes, we offer a 30-day money-back guarantee. If MacStorage doesn't meet your expectations for any reason, simply contact our support team within 30 days of purchase for a full refund, no questions asked.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">We offer a 30-day money-back guarantee. If you are not completely satisfied with Netflix-Macs for any reason, simply contact our support team within 30 days of purchase for a full refund. No questions asked.</p>
                     </div>
-                </details>
-                <details class="gradient-card rounded-2xl soft-shadow group">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                        <span class="font-semibold text-gray-900">Does MacStorage work with Apple Silicon Macs?</span>
-                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
+                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-800">How do I get support if I need help?</span>
+                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        Yes! MacStorage is fully optimized for both Apple Silicon (M1, M2, M3) and Intel-based Macs. The application runs natively on Apple Silicon for maximum performance and efficiency.
+                    </button>
+                    <div class="faq-content px-6 pb-5">
+                        <p class="text-gray-600">Our dedicated support team is available via email at support@netflix-macs.vercel.app. We typically respond within 24 hours on business days. You can also access our comprehensive knowledge base and video tutorials for self-service assistance.</p>
                     </div>
-                </details>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="py-20 md:py-32">
         <div class="max-w-4xl mx-auto px-4 md:px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Ready to Take Control of Your Mac Storage?</h2>
-            <h3 class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">Join over 50,000 Mac users who have discovered a better way to manage their disk space.</h3>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Ready to Transform Your Media Experience?</h2>
+            <h3 class="text-xl text-gray-600 mb-10">Join thousands of Mac users who have already organized their digital entertainment</h3>
             <a href="#pricing" class="inline-block gradient-btn text-white px-10 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl">
-                Get MacStorage for $11.75
+                Get Netflix-Macs Today
             </a>
-            <p class="text-sm text-gray-500 mt-4">30-day money-back guarantee • Lifetime updates included</p>
         </div>
     </section>
 
     <footer class="bg-gray-900 text-white py-16">
         <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <div class="md:col-span-1">
+            <div class="grid md:grid-cols-4 gap-10 mb-12">
+                <div>
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-9 h-9 rounded-xl bg-blue-500 flex items-center justify-center">
+                        <div class="w-9 h-9 rounded-xl gradient-btn flex items-center justify-center">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path>
                             </svg>
                         </div>
-                        <span class="text-xl font-bold">MacStorage</span>
+                        <span class="text-xl font-bold">Netflix-Macs</span>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Smart storage management for Mac users. Visualize, analyze, and organize your disk space with ease.</p>
-                    <p class="text-gray-500 text-sm">macstorage.vercel.app</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">The ultimate media hub for Mac users. Organize, manage, and enjoy all your entertainment content in one beautiful application.</p>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Product</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#features" class="text-gray-400 hover:text-white text-sm transition-colors">Features</a></li>
-                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white text-sm transition-colors">How It Works</a></li>
-                        <li><a href="#pricing" class="text-gray-400 hover:text-white text-sm transition-colors">Pricing</a></li>
-                        <li><a href="#faq" class="text-gray-400 hover:text-white text-sm transition-colors">FAQ</a></li>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Support</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#faq" class="text-gray-400 hover:text-white text-sm transition-colors">Help Center</a></li>
-                        <li><a href="mailto:support@macstorage.vercel.app" class="text-gray-400 hover:text-white text-sm transition-colors">Contact Us</a></li>
-                        <li><a href="#privacy" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a></li>
-                        <li><a href="#privacy" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a></li>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#privacy" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#privacy" class="hover:text-white transition-colors">Refund Policy</a></li>
+                        <li><a href="#privacy" class="hover:text-white transition-colors">Cookie Policy</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Contact</h4>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-2 text-gray-400 text-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                            support@macstorage.vercel.app
-                        </li>
-                        <li class="flex items-center gap-2 text-gray-400 text-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                            hello@macstorage.vercel.app
-                        </li>
-                        <li class="flex items-center gap-2 text-gray-400 text-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                            </svg>
-                            macstorage.vercel.app
+                    <h4 class="font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>support@netflix-macs.vercel.app</li>
+                        <li>info@netflix-macs.vercel.app</li>
+                        <li class="pt-2">
+                            <span class="text-xs text-gray-500">Domain: netflix-macs.vercel.app</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 pt-8">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p class="text-gray-500 text-sm">© 2025 MacStorage. All rights reserved.</p>
-                    <div class="flex items-center gap-6">
-                        <a href="#privacy" class="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</a>
-                        <a href="#privacy" class="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</a>
-                        <a href="#privacy" class="text-gray-500 hover:text-white text-sm transition-colors">Cookie Policy</a>
-                    </div>
-                </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-gray-500">2024 Netflix-Macs. All rights reserved.</p>
+                <p class="text-sm text-gray-500">Made with care for Mac enthusiasts worldwide.</p>
             </div>
         </div>
     </footer>
 
-    <section id="privacy" class="bg-gray-50 py-20">
+    <section id="privacy" class="py-20 bg-gray-50">
         <div class="max-w-4xl mx-auto px-4 md:px-6">
             <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Privacy Policy</h2>
-            <div class="gradient-card rounded-2xl p-8 md:p-12 soft-shadow prose prose-gray max-w-none">
-                <p class="text-gray-600 mb-6"><strong>Last Updated:</strong> January 2024</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">1. Introduction</h3>
-                <p class="text-gray-600 mb-4">MacStorage ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our MacStorage application and visit our website at macstorage.vercel.app.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">2. Information We Collect</h3>
-                <p class="text-gray-600 mb-4"><strong>Personal Information:</strong> When you purchase MacStorage, we collect information necessary to process your transaction, including your name, email address, and payment information. Payment processing is handled securely by our third-party payment processor (Stripe).</p>
-                <p class="text-gray-600 mb-4"><strong>Usage Data:</strong> We may collect anonymous usage statistics to improve our application and services. This data does not identify individual users and includes general information about feature usage and performance metrics.</p>
-                <p class="text-gray-600 mb-4"><strong>Local Data:</strong> MacStorage analyzes files on your local device to provide storage management features. This analysis happens entirely on your Mac, and we do not collect, transmit, or store any of your personal files, folder names, or file contents.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">3. How We Use Your Information</h3>
-                <p class="text-gray-600 mb-4">We use the information we collect to:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
-                    <li>Process your purchase and deliver the product</li>
-                    <li>Send you important updates about the application</li>
-                    <li>Provide customer support when requested</li>
-                    <li>Improve our products and services</li>
-                    <li>Comply with legal obligations</li>
-                </ul>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">4. Data Security</h3>
-                <p class="text-gray-600 mb-4">We implement appropriate technical and organizational security measures to protect your personal information. However, no method of transmission over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">5. Third-Party Services</h3>
-                <p class="text-gray-600 mb-4">We may use third-party services for payment processing, analytics, and customer support. These services have their own privacy policies, and we encourage you to review them. We only share information necessary for these services to function.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">6. Cookies and Tracking</h3>
-                <p class="text-gray-600 mb-4">Our website uses cookies and similar tracking technologies to enhance your browsing experience, analyze site traffic, and understand where our visitors come from. You can control cookies through your browser settings. Disabling cookies may affect some website functionality.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">7. Your Rights</h3>
-                <p class="text-gray-600 mb-4">Depending on your location, you may have certain rights regarding your personal information, including:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
-                    <li>The right to access your personal information</li>
-                    <li>The right to correct inaccurate information</li>
-                    <li>The right to delete your personal information</li>
-                    <li>The right to opt-out of marketing communications</li>
-                    <li>The right to data portability</li>
-                </ul>
-                <p class="text-gray-600 mb-4">To exercise these rights, please contact us at support@macstorage.vercel.app.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">8. Children's Privacy</h3>
-                <p class="text-gray-600 mb-4">MacStorage is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">9. International Data Transfers</h3>
-                <p class="text-gray-600 mb-4">Your information may be transferred to and processed in countries other than your own. We ensure that appropriate safeguards are in place to protect your information in accordance with applicable data protection laws.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">10. Changes to This Policy</h3>
-                <p class="text-gray-600 mb-4">We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. We encourage you to review this Privacy Policy periodically.</p>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">11. Contact Us</h3>
-                <p class="text-gray-600 mb-4">If you have questions or concerns about this Privacy Policy or our privacy practices, please contact us at:</p>
-                <p class="text-gray-600">Email: support@macstorage.vercel.app<br>Website: macstorage.vercel.app</p>
+            <div class="prose prose-gray max-w-none">
+                <div class="bg-white rounded-2xl p-8 card-shadow space-y-6 text-gray-600">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">1. Information We Collect</h3>
+                        <p>When you purchase Netflix-Macs, we collect only the information necessary to process your transaction and deliver your license key. This includes your email address and payment information processed securely through our payment provider. We do not collect, access, or store any of your personal media files or content.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">2. How We Use Your Information</h3>
+                        <p>Your email address is used solely for delivering your license key, providing customer support, and sending important product updates. We do not sell, trade, or share your personal information with third parties for marketing purposes.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">3. Data Security</h3>
+                        <p>We implement industry-standard security measures to protect your personal information. All payment transactions are encrypted and processed through secure payment gateways. Your license information is stored securely and accessed only when necessary for support purposes.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">4. Local Data Processing</h3>
+                        <p>Netflix-Macs processes all your media files locally on your Mac device. No media content is ever uploaded to our servers or any third-party services unless you explicitly enable iCloud sync features. Your media library metadata remains private and under your control.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">5. Cookies and Analytics</h3>
+                        <p>Our website uses essential cookies to ensure proper functionality and remember your preferences. We may use anonymous analytics to understand how visitors interact with our website. You can control cookie settings through your browser preferences.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">6. Third-Party Services</h3>
+                        <p>We use trusted third-party services for payment processing and email delivery. These services are bound by their own privacy policies and are required to protect your information. We only share the minimum information necessary for these services to function.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">7. Your Rights</h3>
+                        <p>You have the right to access, correct, or delete your personal information at any time. You may also request a copy of the data we hold about you. To exercise these rights, please contact us at support@netflix-macs.vercel.app.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">8. Children's Privacy</h3>
+                        <p>Netflix-Macs is not intended for use by children under the age of 13. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such information, please contact us immediately.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">9. Changes to This Policy</h3>
+                        <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify registered users of any material changes via email. The current version will always be available on this page.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">10. Contact Us</h3>
+                        <p>If you have any questions about this Privacy Policy or our data practices, please contact us at support@netflix-macs.vercel.app. We are committed to addressing your concerns and protecting your privacy.</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500">Last updated: December 2024</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="bg-gray-900 py-6">
-        <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
-            <p class="text-gray-500 text-sm">© 2025 MacStorage — macstorage.vercel.app — All rights reserved.</p>
-        </div>
-    </div>
-
     <script>
         function acceptCookies() {
+            document.getElementById('cookiePopup').style.display = 'none';
             localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookiePopup').style.display = 'none';
         }
-        
+
         function declineCookies() {
-            localStorage.setItem('cookiesAccepted', 'false');
             document.getElementById('cookiePopup').style.display = 'none';
+            localStorage.setItem('cookiesAccepted', 'false');
         }
-        
+
         if (localStorage.getItem('cookiesAccepted')) {
             document.getElementById('cookiePopup').style.display = 'none';
         }
+
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            
+            content.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 
 </body>
