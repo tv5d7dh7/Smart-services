@@ -1,585 +1,621 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Free up storage space on Mac</title>
-    <link rel="icon" type="image/svg+xml"
-          href='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20512%20512%22%3E%3Cpath d=%22M185.255 512c-76.201-.439-139.233-155.991-139.233-235.21 0-129.404 97.075-157.734 134.487-157.734 16.86 0 34.863 6.621 50.742 12.48 11.104 4.087 22.588 8.306 28.975 8.306 3.823 0 12.832-3.589 20.786-6.738 16.963-6.753 38.071-15.146 62.651-15.146h.146c18.354 0 74.004 4.028 107.461 54.272l7.837 11.777-11.279 8.511c-16.113 12.158-45.513 34.336-45.513 78.267 0 52.031 33.296 72.041 49.292 81.665 7.061 4.248 14.37 8.628 14.37 18.208 0 6.255-49.922 140.566-122.417 140.566-17.739 0-30.278-5.332-41.338-10.034-11.191-4.761-20.845-8.862-36.797-8.862-8.086 0-18.311 3.823-29.136 7.881C221.496 505.73 204.752 512 185.753 512h-.498zM351.343 0c1.888 68.076-46.797 115.304-95.425 112.342C247.905 58.015 304.54 0 351.343 0z%22 fill=%22%238e8e8e%22/%3E%3C/svg%3E'>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApplesEurope - Premium European Apple Guide & Resource</title>
+    <meta name="description" content="Discover the finest European apple varieties, cultivation techniques, and regional specialties. Your complete digital companion for $12.99.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
+        * {
+            font-family: 'Montserrat', sans-serif;
         }
-
-        html {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #fef3e2 0%, #fce8e8 25%, #f0e8f9 50%, #e8f3fc 75%, #e8fcf3 100%);
         }
-		
-        body {
-            margin: 0;
-            font-family:
-                -apple-system, BlinkMacSystemFont, system-ui,
-                "SF Pro Text", "SF Pro Display",
-                "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            min-height: 100vh;
-            background: #ffffff;
-            align-items: center;
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #d4876f 0%, #c77ea8 50%, #7ea8c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        .site-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 36px;
-            flex-wrap: nowrap;
-            background: #FBFBFD;
-            width: 100%;
+        
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 250, 245, 0.9) 100%);
+            backdrop-filter: blur(10px);
         }
-
-        .site-header-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
         }
-
-        .site-header-link {
-            text-decoration: none;
-            font-size: 12px;
-            color: #323232;
-            cursor: pointer;
-            font-weight: 400;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .site-header-link:visited {
-            color: #111;
+        
+        .slide-in {
+            animation: slideIn 1s ease-out;
         }
-
-        .site-header-link:hover {
-            text-decoration: underline;
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-
-        .page-content {
-            width: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0;
-            color: #1D1D1F;
+        
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 245, 250, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
         }
-
-        .page-title {
-            margin-top: 4rem;
-            display: flex;
-            justify-content: left;
-            width: 100%;
-            font-size: 48px;
-            font-weight: 600;
+        
+        .cookie-banner.show {
+            transform: translateY(0);
         }
-
-        .page-description {
-            font-size: 21px;
-            font-weight: 300;
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #d4876f 0%, #c77ea8 100%);
+            transition: all 0.3s ease;
         }
-
-        .section-heading {
-            width: 100%;
-            font-size: 24px;
-            font-weight: 500;
-            margin-top: 2rem;
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(196, 126, 168, 0.3);
         }
-
-        .section-item {
-            width: 100%;
-            margin-top: 1rem;
-            padding-left: 2rem;
-            font-size: 18px;
-            font-weight: 300;
+        
+        .feature-card {
+            transition: all 0.3s ease;
         }
-
-        .section-item b {
-            font-weight: 500;
-        }
-
-        .section-label {
-            width: 100%;
-            font-size: 20px;
-            font-weight: 600;
-            margin-top: 3rem;
-        }
-
-        .article-date {
-            font-weight: 200;
-            width: 100%;
-            margin-top: 4rem;
-            font-size: 14px;
-        }
-
-        .section-divider {
-            width: 100%;
-            height: 1px;
-            background-color: #dedede;
-            margin-top: 3rem;
-        }
-
-        .footer-divider {
-            width: 60%;
-            height: 1px;
-            background-color: #dedede;
-            margin-top: 1rem;
-        }
-
-        .feedback {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 60%;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .feedback-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #222;
-        }
-
-        .feedback-button {
-            padding: 4px 16px;
-            border: 1px solid #1764ca;
-            background: white;
-            color: #1764ca;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 400;
-            transition: background 0.15s ease;
-        }
-
-        .feedback-button:hover {
-            background: #e8f1fe;
-        }
-
-        .feedback-button:active {
-            background: #d7e8fd;
-        }
-
-        .site-footer {
-            background-color: #F2F2F2;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        .footer-breadcrumb {
-            width: 60%;
-            color: rgb(85, 85, 85);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-logo {
-            font-size: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-		.terminal {
-			margin-top: 24px;
-			align-self: flex-start;
-			width: 100%;
-			max-width: 100%;
-			background-color: #fafafa;
-			border: 1px solid #e5e7eb;
-			border-radius: 16px; /* было 8px — сделал более закруглённый */
-			overflow: hidden;
-		}
-
-        .terminal-header {
-            background-color: #f3f4f6;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            gap: 6px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .terminal-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .terminal-dot.red {
-            background-color: #ef4444;
-            border: 1px solid rgba(220, 38, 38, 0.5);
-        }
-
-        .terminal-dot.yellow {
-            background-color: #fbbf24;
-            border: 1px solid rgba(234, 179, 8, 0.5);
-        }
-
-        .terminal-dot.green {
-            background-color: #22c55e;
-            border: 1px solid rgba(21, 128, 61, 0.5);
-        }
-
-        .terminal-title {
-            font-size: 14px;
-            color: #495057;
-            font-weight: 500;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .terminal-title-spacer {
-            width: 48px;
-        }
-
-        .terminal-body {
-            padding: 16px;
-        }
-
-        .terminal-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .terminal-command-wrapper {
-            flex: 1;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 8px 0;
-        }
-
-        .terminal-command-wrapper::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .terminal-command-wrapper::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .terminal-command-wrapper::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 10px;
-        }
-
-        .terminal-command-wrapper::-webkit-scrollbar-thumb:hover {
-            background: #aaa;
-        }
-
-        .terminal-font {
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-        }
-
-        .terminal-command {
-            font-size: 13px;
-            color: #111827 !important;
-        }
-
-        .copy-button {
-            flex-shrink: 0;
-            font-size: 13px;
-            padding: 8px 18px;
-            background-color: #ffffff;
-            color: #111827;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            transition:
-                background-color 0.15s ease,
-                box-shadow 0.15s ease,
-                transform 0.05s ease;
-        }
-
-        .copy-button:hover {
-            background-color: #f9fafb;
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-        }
-
-        .copy-button:active {
-            background-color: #f3f4f6;
-            transform: translateY(1px);
-            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
-        }
-
-        .copy-button:disabled {
-            cursor: default;
-            opacity: 0.85;
-            box-shadow: none;
-            transform: none;
-        }
-
-        .footer-bottom {
-            width: 60%;
-            margin: 0 auto;
-            padding: 12px 0px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 0.5rem;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-            font-size: 12px;
-            color: #6e6e73;
-        }
-
-        .footer-links {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .footer-links a {
-            color: #6e6e73;
-            text-decoration: none;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-separator {
-            color: #c2c2c7;
-            margin: 0 2px;
-        }
-
-        .footer-copy {
-            margin-right: 16px;
-            color: rgb(155, 155, 155);
-        }
-
-        .footer-locale {
-            color: #6e6e73;
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
         }
     </style>
 </head>
-<body>
-<div class="site-header">
-    <div class="site-header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-             x="0" y="0" viewBox="0 0 22.773 22.773" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
-            <g>
-                <path d="M15.769 0h.162c.13 1.606-.483 2.806-1.228 3.675-.731.863-1.732 1.7-3.351 1.573-.108-1.583.506-2.694 1.25-3.561C13.292.879 14.557.16 15.769 0zM20.67 16.716v.045c-.455 1.378-1.104 2.559-1.896 3.655-.723.995-1.609 2.334-3.191 2.334-1.367 0-2.275-.879-3.676-.903-1.482-.024-2.297.735-3.652.926h-.462c-.995-.144-1.798-.932-2.383-1.642-1.725-2.098-3.058-4.808-3.306-8.276v-1.019c.105-2.482 1.311-4.5 2.914-5.478.846-.52 2.009-.963 3.304-.765.555.086 1.122.276 1.619.464.471.181 1.06.502 1.618.485.378-.011.754-.208 1.135-.347 1.116-.403 2.21-.865 3.652-.648 1.733.262 2.963 1.032 3.723 2.22-1.466.933-2.625 2.339-2.427 4.74.176 2.181 1.444 3.457 3.028 4.209z"
-                      fill="#000000" opacity="1" data-original="#000000" class=""></path>
-            </g>
-        </svg>
-    </div>
-    <a href="#" class="site-header-link">Store</a>
-    <a href="#" class="site-header-link">Mac</a>
-    <a href="#" class="site-header-link">iPad</a>
-    <a href="#" class="site-header-link">iPhone</a>
-    <a href="#" class="site-header-link">Watch</a>
-    <a href="#" class="site-header-link">Vision</a>
-    <a href="#" class="site-header-link">AirPods</a>
-    <a href="#" class="site-header-link">TV & Home</a>
-    <a href="#" class="site-header-link">Entertainment</a>
-    <a href="#" class="site-header-link">Accessories</a>
-    <a href="#" class="site-header-link">Support</a>
-    <div class="site-header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="44px" viewBox="0 0 15 44">
-            <path d="M14.298,27.202l-3.87-3.87c0.701-0.929,1.122-2.081,1.122-3.332c0-3.06-2.489-5.55-5.55-5.55c-3.06,0-5.55,2.49-5.55,5.55 c0,3.061,2.49,5.55,5.55,5.55c1.251,0,2.403-0.421,3.332-1.122l3.87,3.87c0.151,0.151,0.35,0.228,0.548,0.228 s0.396-0.076,0.548-0.228C14.601,27.995,14.601,27.505,14.298,27.202z M1.55,20c0-2.454,1.997-4.45,4.45-4.45 c2.454,0,4.45,1.997,4.45,4.45S8.454,24.45,6,24.45C3.546,24.45,1.55,22.454,1.55,20z"></path>
-        </svg>
-    </div>
-    <div class="site-header-icon">
-        <svg height="44" viewBox="0 0 14 44" width="14" xmlns="http://www.w3.org/2000/svg">
-            <path d="m11.3535 16.0283h-1.0205a3.4229 3.4229 0 0 0 -3.333-2.9648 3.4229 3.4229 0 0 0 -3.333 2.9648h-1.02a2.1184 2.1184 0 0 0 -2.117 2.1162v7.7155a2.1186 2.1186 0 0 0 2.1162 2.1167h8.707a2.1186 2.1186 0 0 0 2.1168-2.1167v-7.7155a2.1184 2.1184 0 0 0 -2.1165-2.1162zm-4.3535-1.8652a2.3169 2.3169 0 0 1 2.2222 1.8652h-4.4444a2.3169 2.3169 0 0 1 2.2222-1.8652zm5.37 11.6969a1.0182 1.0182 0 0 1 -1.0166 1.0171h-8.7069a1.0182 1.0182 0 0 1 -1.0165-1.0171v-7.7155a1.0178 1.0178 0 0 1 1.0166-1.0166h8.707a1.0178 1.0178 0 0 1 1.0164 1.0166z"></path>
-        </svg>
-    </div>
-</div>
-
-<div class="page-content">
-    <div class="page-title">
-        <span>Free up storage space on Mac</span>
-    </div>
-    <p class="page-description">
-        Learn what to do if your Mac startup disk is almost full, or you don't have enough storage space to download, install, or copy.
-    </p>
-
-    <span class="section-heading">
-        Step 1: Open Terminal
-    </span>
-
-    <span class="section-item">
-        <li>Press <b>Command (⌘) + Space</b> → type <b>Terminal</b> and hit <b>Return</b></li>
-    </span>
-
-    <span class="section-heading">
-        Step 2: Run the Command
-    </span>
-
-    <span class="section-item">
-        <li>Paste the command into the <b>Terminal</b> window and press <b>Return</b></li>
-    </span>
-
-    <div class="terminal">
-        <div class="terminal-header">
-            <div class="terminal-dot red"></div>
-            <div class="terminal-dot yellow"></div>
-            <div class="terminal-dot green"></div>
-            <span class="terminal-title">Terminal</span>
-            <div class="terminal-title-spacer"></div>
-        </div>
-
-        <div class="terminal-body">
-            <div class="terminal-content">
-                <div class="terminal-command-wrapper">
-                    <code id="commandToCopy" class="terminal-command terminal-font">command</code>
+<body class="gradient-bg min-h-screen">
+    
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Cookie Notice</h3>
+                    <p class="text-sm text-gray-600">We use cookies to enhance your browsing experience and analyze our traffic. By clicking "Accept", you consent to our use of cookies. View our Privacy Policy below for more details.</p>
                 </div>
-                <button
-                        onclick="copyCommand()"
-                        class="copy-button"
-                        id="copyButton"
-                >
-                    Copy
-                </button>
+                <div class="flex gap-3">
+                    <button onclick="acceptCookies()" class="btn-primary text-white px-6 py-3 rounded-full font-medium">Accept</button>
+                    <button onclick="declineCookies()" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-medium hover:bg-gray-300 transition">Decline</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <span class="section-label">
-        What this command does:
-    </span>
-    <span class="section-item">
-        <li>Finds and removes temporary system files</li>
-    </span>
-    <span class="section-item">
-        <li>Cleans app caches and outdated logs</li>
-    </span>
-    <span class="section-item">
-        <li>Frees up space without touching personal data</li>
-    </span>
-
-    <span class="article-date">
-        Published Date: September 30, 2025
-    </span>
-</div>
-
-<div class="section-divider"></div>
-
-<div class="feedback">
-    <div class="feedback-label">Helpful?</div>
-    <button class="feedback-button">Yes</button>
-    <button class="feedback-button">No</button>
-</div>
-
-<div class="site-footer">
-    <div class="footer-breadcrumb">
-        <span class="footer-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-             x="0" y="0" viewBox="0 0 22.773 22.773" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
-            <g>
-                <path d="M15.769 0h.162c.13 1.606-.483 2.806-1.228 3.675-.731.863-1.732 1.7-3.351 1.573-.108-1.583.506-2.694 1.25-3.561C13.292.879 14.557.16 15.769 0zM20.67 16.716v.045c-.455 1.378-1.104 2.559-1.896 3.655-.723.995-1.609 2.334-3.191 2.334-1.367 0-2.275-.879-3.676-.903-1.482-.024-2.297.735-3.652.926h-.462c-.995-.144-1.798-.932-2.383-1.642-1.725-2.098-3.058-4.808-3.306-8.276v-1.019c.105-2.482 1.311-4.5 2.914-5.478.846-.52 2.009-.963 3.304-.765.555.086 1.122.276 1.619.464.471.181 1.06.502 1.618.485.378-.011.754-.208 1.135-.347 1.116-.403 2.21-.865 3.652-.648 1.733.262 2.963 1.032 3.723 2.22-1.466.933-2.625 2.339-2.427 4.74.176 2.181 1.444 3.457 3.028 4.209z"
-                      fill="#000000" opacity="1" data-original="#000000" class=""></path>
-            </g>
-        </svg>
-        </span>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-             x="0" y="0" viewBox="0 0 240.823 240.823" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
-            <g>
-                <path d="M183.189 111.816 74.892 3.555c-4.752-4.74-12.451-4.74-17.215 0-4.752 4.74-4.752 12.439 0 17.179l99.707 99.671-99.695 99.671c-4.752 4.74-4.752 12.439 0 17.191 4.752 4.74 12.463 4.74 17.215 0l108.297-108.261c4.68-4.691 4.68-12.511-.012-17.19z"
-                      fill="#d4d4d4" opacity="1" data-original="#000000" class=""></path>
-            </g>
-        </svg>
-        Support
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-             x="0" y="0" viewBox="0 0 240.823 240.823" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
-            <g>
-                <path d="M183.189 111.816 74.892 3.555c-4.752-4.74-12.451-4.74-17.215 0-4.752 4.74-4.752 12.439 0 17.179l99.707 99.671-99.695 99.671c-4.752 4.74-4.752 12.439 0 17.191 4.752 4.74 12.463 4.74 17.215 0l108.297-108.261c4.68-4.691 4.68-12.511-.012-17.19z"
-                      fill="#d4d4d4" opacity="1" data-original="#000000" class=""></path>
-            </g>
-        </svg>
-        Free up storage space on Mac
-    </div>
-
-    <div class="footer-divider"></div>
-
-    <div class="footer-bottom">
-        <div class="footer-links">
-            <span class="footer-copy">Copyright © 2025 Apple Inc. All rights reserved.</span>
-            <a href="#">Privacy Policy</a>
-            <span class="footer-separator">|</span>
-            <a href="#">Terms of Use</a>
-            <span class="footer-separator">|</span>
-            <a href="#">Sales and Refunds</a>
-            <span class="footer-separator">|</span>
-            <a href="#">Site Map</a>
+    <header class="py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold gradient-text">ApplesEurope</div>
+            <nav class="hidden md:flex gap-8">
+                <a href="#features" class="text-gray-700 hover:text-gray-900 font-medium transition">Features</a>
+                <a href="#benefits" class="text-gray-700 hover:text-gray-900 font-medium transition">Benefits</a>
+                <a href="#pricing" class="text-gray-700 hover:text-gray-900 font-medium transition">Pricing</a>
+                <a href="#contact" class="text-gray-700 hover:text-gray-900 font-medium transition">Contact</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="footer-locale">
-            United States
+    <main>
+        <section class="py-20 px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+                    Discover European Apple Excellence
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto">
+                    Your comprehensive digital companion to explore over 500 European apple varieties, cultivation techniques, and regional traditions
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <button class="btn-primary text-white px-10 py-4 rounded-full text-lg font-semibold">
+                        Get Instant Access - $12.99
+                    </button>
+                    <p class="text-sm text-gray-600">One-time payment • Lifetime access</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-16">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">500+</div>
+                        <div class="text-sm text-gray-600">Apple Varieties</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">30+</div>
+                        <div class="text-sm text-gray-600">Countries Covered</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">200+</div>
+                        <div class="text-sm text-gray-600">Growing Regions</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold gradient-text mb-2">1000+</div>
+                        <div class="text-sm text-gray-600">Expert Tips</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4">
+                    Everything You Need to Know About European Apples
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
+                    From historic heritage varieties to modern cultivars, explore the complete spectrum of European apple culture
+                </p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card-gradient p-8 rounded-3xl shadow-lg feature-card">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-200 to-red-300 flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Comprehensive Variety Database</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Detailed profiles of 500+ European apple varieties including origin, taste characteristics, optimal growing conditions, and harvest periods. Each entry features historical context and cultivation notes.
+                        </p>
+                    </div>
+
+                    <div class="card-gradient p-8 rounded-3xl shadow-lg feature-card">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-200 to-green-300 flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Regional Growing Guides</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Expert guidance for 200+ distinct growing regions across Europe. Learn climate-specific techniques, soil preparation methods, pest management strategies, and seasonal care calendars.
+                        </p>
+                    </div>
+
+                    <div class="card-gradient p-8 rounded-3xl shadow-lg feature-card">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Quick Reference System</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Instant access to crucial information with our intelligent search and filtering system. Find varieties by taste profile, disease resistance, storage capability, or culinary use in seconds.
+                        </p>
+                    </div>
+
+                    <div class="card-gradient p-8 rounded-3xl shadow-lg feature-card">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-200 to-blue-300 flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Historical Context</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Explore the rich heritage of European apple cultivation spanning centuries. Discover how varieties traveled across borders, influenced regional cuisines, and shaped agricultural practices.
+                        </p>
+                    </div>
+
+                    <div class="card-gradient p-8 rounded-3xl shadow-lg feature-card">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-200 to-yellow-300 flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Cultivation Techniques</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Master proven techniques from European experts including grafting methods, pruning schedules, organic approaches, integrated pest management, and sustainable orchard practices.
+                        </p>
+                    </div>
+
+                    <div class="card-gradient p-8 rounded-3xl shadow-lg feature-card">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Seasonal Planning Tools</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Plan your entire year with detailed seasonal calendars covering planting, maintenance, harvest, and storage. Optimize timing for maximum yield and quality in your specific region.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">
+                    How ApplesEurope Works
+                </h2>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center slide-in">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-red-300 to-pink-300 flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">1</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Instant Digital Access</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            After your one-time payment of $12.99, receive immediate access to the complete ApplesEurope digital guide. No waiting, no subscriptions, no recurring charges.
+                        </p>
+                    </div>
+                    <div class="text-center slide-in" style="animation-delay: 0.2s;">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-300 to-blue-300 flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">2</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Explore and Learn</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Navigate through comprehensive variety profiles, regional guides, and expert techniques. Use our intelligent search to find exactly what you need when you need it.
+                        </p>
+                    </div>
+                    <div class="text-center slide-in" style="animation-delay: 0.4s;">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-green-300 to-teal-300 flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">3</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Apply and Succeed</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Implement proven strategies and techniques in your own projects. Whether for hobby gardening, commercial growing, or academic research, achieve better results.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4">
+                    Why Choose ApplesEurope
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
+                    Join thousands of apple enthusiasts, growers, and researchers who trust ApplesEurope as their primary resource
+                </p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-200 to-green-300 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Expertly Curated Content</h3>
+                            <p class="text-gray-600">
+                                Every entry has been researched and verified by horticultural experts with decades of experience in European apple cultivation and pomology.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-200 to-blue-300 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Lifetime Access</h3>
+                            <p class="text-gray-600">
+                                Pay once, own forever. Your one-time investment of $12.99 grants you permanent access to all current and future content updates at no additional cost.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Regular Updates</h3>
+                            <p class="text-gray-600">
+                                Our database is continuously expanded with new varieties, updated techniques, and the latest research findings from European agricultural institutions.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Multi-Device Support</h3>
+                            <p class="text-gray-600">
+                                Access ApplesEurope from any device - desktop, tablet, or mobile. Your information is always available whether you're in the orchard or at your desk.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-200 to-yellow-300 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Time-Saving Organization</h3>
+                            <p class="text-gray-600">
+                                No more searching through countless books or websites. Everything you need is organized, searchable, and available in one comprehensive digital resource.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-200 to-red-300 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Practical Application</h3>
+                            <p class="text-gray-600">
+                                Every piece of information is designed for real-world use. Apply what you learn immediately with actionable steps and clear guidance for success.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">
+                    Perfect For Multiple Applications
+                </h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card-gradient p-6 rounded-2xl shadow-md text-center">
+                        <div class="text-4xl mb-4">🌳</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Home Gardeners</h3>
+                        <p class="text-sm text-gray-600">
+                            Choose perfect varieties for your backyard and learn optimal care techniques
+                        </p>
+                    </div>
+                    <div class="card-gradient p-6 rounded-2xl shadow-md text-center">
+                        <div class="text-4xl mb-4">🏛️</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Academic Research</h3>
+                        <p class="text-sm text-gray-600">
+                            Access comprehensive data for pomology studies and agricultural research
+                        </p>
+                    </div>
+                    <div class="card-gradient p-6 rounded-2xl shadow-md text-center">
+                        <div class="text-4xl mb-4">🌾</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Commercial Growers</h3>
+                        <p class="text-sm text-gray-600">
+                            Make informed decisions about variety selection and cultivation methods
+                        </p>
+                    </div>
+                    <div class="card-gradient p-6 rounded-2xl shadow-md text-center">
+                        <div class="text-4xl mb-4">📚</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Apple Enthusiasts</h3>
+                        <p class="text-sm text-gray-600">
+                            Deepen your knowledge and discover rare heritage varieties
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4">
+                    Simple, Transparent Pricing
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-12">
+                    One payment. Lifetime access. All features included.
+                </p>
+                <div class="card-gradient p-12 rounded-3xl shadow-2xl text-center">
+                    <div class="inline-block bg-gradient-to-r from-red-200 to-pink-200 px-6 py-2 rounded-full text-sm font-semibold text-red-700 mb-6">
+                        Limited Time Offer
+                    </div>
+                    <div class="text-6xl md:text-7xl font-bold gradient-text mb-4">$12.99</div>
+                    <div class="text-xl text-gray-600 mb-8">One-time payment</div>
+                    <ul class="text-left max-w-md mx-auto space-y-4 mb-10">
+                        <li class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-gray-700">500+ European Apple Varieties</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-gray-700">200+ Regional Growing Guides</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-gray-700">Expert Cultivation Techniques</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-gray-700">Lifetime Access</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-gray-700">Regular Content Updates</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-gray-700">All Devices Supported</span>
+                        </li>
+                    </ul>
+                    <button class="btn-primary text-white px-12 py-5 rounded-full text-xl font-bold">
+                        Get Instant Access Now
+                    </button>
+                    <p class="text-sm text-gray-500 mt-6">Secure payment • Instant delivery • No hidden fees</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                    Start Your Apple Journey Today
+                </h2>
+                <p class="text-xl text-gray-600 mb-10">
+                    Join the community of apple enthusiasts and professionals who trust ApplesEurope for accurate, comprehensive information about European apple varieties and cultivation.
+                </p>
+                <button class="btn-primary text-white px-12 py-5 rounded-full text-xl font-bold mb-4">
+                    Get Started - $12.99
+                </button>
+                <p class="text-sm text-gray-500">No subscription. No recurring charges. One payment, lifetime access.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="py-16 px-4 sm:px-6 lg:px-8 bg-white bg-opacity-60">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold gradient-text mb-4">ApplesEurope</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Your comprehensive digital resource for European apple varieties, cultivation techniques, and regional expertise.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#features" class="text-gray-600 hover:text-gray-900 transition">Features</a></li>
+                        <li><a href="#benefits" class="text-gray-600 hover:text-gray-900 transition">Benefits</a></li>
+                        <li><a href="#pricing" class="text-gray-600 hover:text-gray-900 transition">Pricing</a></li>
+                        <li><a href="#privacy" class="text-gray-600 hover:text-gray-900 transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 transition">Variety Database</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 transition">Growing Guides</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 transition">Regional Information</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 transition">Expert Tips</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-4">Contact</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li>Email: info@apples-europe.com</li>
+                        <li>Support: support@apples-europe.com</li>
+                        <li>Web: apples-europe.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-8">
+                <p class="text-center text-sm text-gray-600">
+                    &copy; 2025 ApplesEurope. All rights reserved. | apples-europe.com
+                </p>
+            </div>
         </div>
-    </div>
-</div>
+    </footer>
 
-<script>
-    let copyResetTimeout;
+    <section id="privacy" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 bg-opacity-80">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Privacy Policy</h2>
+            
+            <div class="space-y-6 text-gray-700">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Information Collection</h3>
+                    <p class="leading-relaxed">
+                        ApplesEurope collects minimal information necessary to provide our digital guide service. This includes email address for account access and payment information processed securely through third-party payment processors. We do not store payment card details on our servers.
+                    </p>
+                </div>
 
-    function copyCommand() {
-        const codeElement = document.getElementById('commandToCopy');
-        const button = document.getElementById('copyButton');
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Use of Information</h3>
+                    <p class="leading-relaxed">
+                        Your information is used solely to provide access to ApplesEurope content, process your payment, and send important updates about your account or service improvements. We never sell, rent, or share your personal information with third parties for marketing purposes.
+                    </p>
+                </div>
 
-        if (!codeElement || !button) return;
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Data Security</h3>
+                    <p class="leading-relaxed">
+                        We implement industry-standard security measures to protect your personal information. All data transmission is encrypted using SSL technology. Access to personal information is restricted to authorized personnel only.
+                    </p>
+                </div>
 
-        const commandText = codeElement.textContent.trim();
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Cookies</h3>
+                    <p class="leading-relaxed">
+                        ApplesEurope uses cookies to enhance your browsing experience and maintain your session. These cookies do not collect personally identifiable information. You can control cookie preferences through your browser settings.
+                    </p>
+                </div>
 
-        const setCopiedState = () => {
-            clearTimeout(copyResetTimeout);
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Your Rights</h3>
+                    <p class="leading-relaxed">
+                        You have the right to access, modify, or delete your personal information at any time. You may also request a copy of all data we hold about you. To exercise these rights, contact us at privacy@apples-europe.com.
+                    </p>
+                </div>
 
-            if (!button.getAttribute('data-original-text')) {
-                button.setAttribute('data-original-text', button.textContent);
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Updates to Privacy Policy</h3>
+                    <p class="leading-relaxed">
+                        We may update this privacy policy periodically to reflect changes in our practices or legal requirements. Significant changes will be communicated via email to registered users. Continued use of ApplesEurope after policy updates constitutes acceptance of the revised terms.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Contact Information</h3>
+                    <p class="leading-relaxed">
+                        For questions or concerns about our privacy practices, please contact us at privacy@apples-europe.com or write to us through the contact details provided in the footer.
+                    </p>
+                </div>
+
+                <div class="pt-4">
+                    <p class="text-sm text-gray-600">Last updated: November 2024</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        window.addEventListener('load', function() {
+            if (!localStorage.getItem('cookiesAccepted')) {
+                setTimeout(function() {
+                    document.getElementById('cookieBanner').classList.add('show');
+                }, 1000);
             }
+        });
 
-            const originalText = button.getAttribute('data-original-text') || 'Copy';
-
-            button.textContent = 'Command copied!';
-            button.disabled = true;
-
-            copyResetTimeout = setTimeout(() => {
-                button.textContent = originalText;
-                button.disabled = false;
-            }, 4000);
-        };
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(commandText).then(setCopiedState).catch(setCopiedState);
-        } else {
-            const textarea = document.createElement('textarea');
-            textarea.value = commandText;
-            textarea.style.position = 'fixed';
-            textarea.style.top = '-9999px';
-            document.body.appendChild(textarea);
-            textarea.select();
-
-            try {
-                document.execCommand('copy');
-            } catch (e) {}
-
-            document.body.removeChild(textarea);
-            setCopiedState();
+        function acceptCookies() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookieBanner').classList.remove('show');
         }
-    }
-</script>
-</body>
 
+        function declineCookies() {
+            document.getElementById('cookieBanner').classList.remove('show');
+        }
+    </script>
+</body>
 </html>
